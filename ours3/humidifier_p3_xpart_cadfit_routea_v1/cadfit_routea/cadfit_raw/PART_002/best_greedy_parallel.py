@@ -1,0 +1,43 @@
+import cadquery as cq
+import math
+
+
+# Revolve operation 1
+plane_1 = cq.Plane(origin=(0.0, 0.0, -0.0), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+sketch_1 = sketch_1.moveTo(-0.64735, -0.02793)
+sketch_1 = sketch_1.threePointArc((-0.64507, -0.43905), (-0.64105, -0.8337))
+sketch_1 = sketch_1.threePointArc((-0.63791, -0.91336), (-0.63247, -0.98676))
+sketch_1 = sketch_1.lineTo(-0.61427, -0.9984)
+sketch_1 = sketch_1.threePointArc((-0.56169, -0.99975), (-0.51413, -0.99842))
+sketch_1 = sketch_1.lineTo(-0.34552, -0.99439)
+sketch_1 = sketch_1.threePointArc((-0.31986, -0.99456), (-0.29826, -0.99285))
+sketch_1 = sketch_1.lineTo(-0.28097, -0.9927)
+sketch_1 = sketch_1.threePointArc((-0.25722, -0.99308), (-0.24259, -0.99145))
+sketch_1 = sketch_1.threePointArc((-0.20431, -0.99197), (-0.17082, -0.99044))
+sketch_1 = sketch_1.threePointArc((-0.1436, -0.98967), (-0.11861, -0.99062))
+sketch_1 = sketch_1.threePointArc((-0.07795, -0.98864), (-0.03967, -0.98847))
+sketch_1 = sketch_1.lineTo(0.03549, -0.98542)
+sketch_1 = sketch_1.threePointArc((0.06633, -0.9856), (0.09332, -0.98321))
+sketch_1 = sketch_1.threePointArc((0.14106, -0.98377), (0.18382, -0.98203))
+sketch_1 = sketch_1.lineTo(0.28032, -0.98019)
+sketch_1 = sketch_1.lineTo(0.32694, -0.97906)
+sketch_1 = sketch_1.threePointArc((0.35103, -0.97804), (0.3726, -0.97839))
+sketch_1 = sketch_1.lineTo(0.45037, -0.97546)
+sketch_1 = sketch_1.lineTo(0.4951, -0.97575)
+sketch_1 = sketch_1.lineTo(0.50786, -0.97429)
+sketch_1 = sketch_1.threePointArc((0.53276, -0.97287), (0.55557, -0.97457))
+sketch_1 = sketch_1.lineTo(0.6191, -0.97204)
+sketch_1 = sketch_1.lineTo(0.63518, -0.93606)
+sketch_1 = sketch_1.threePointArc((0.5859, -0.9406), (0.53437, -0.94198))
+sketch_1 = sketch_1.lineTo(-0.23033, -0.95847)
+sketch_1 = sketch_1.threePointArc((-0.41197, -0.96171), (-0.5836, -0.96631))
+sketch_1 = sketch_1.lineTo(-0.61114, -0.96351)
+sketch_1 = sketch_1.lineTo(-0.6154, -0.93151)
+sketch_1 = sketch_1.threePointArc((-0.61824, -0.7662), (-0.61859, -0.59703))
+sketch_1 = sketch_1.threePointArc((-0.62112, -0.31668), (-0.62143, -0.02771))
+sketch_1 = sketch_1.lineTo(-0.64735, -0.02793)
+sketch_1 = sketch_1.close()
+solid_revolve_1 = sketch_1.revolve(angleDegrees=360.0, axisStart=(-0.261, -0.024, 0.001), axisEnd=(-1.2610000000000001, -0.032, 0.001))
+
+result = solid_revolve_1

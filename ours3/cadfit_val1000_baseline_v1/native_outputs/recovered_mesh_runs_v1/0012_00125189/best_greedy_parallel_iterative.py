@@ -1,0 +1,30 @@
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.08842, 0.05124, -0.11333), normal=(-0.0, -0.0, 1.0), xDir=(-0.0, 1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-1.05124, -0.08842)
+loop_1 = loop_1.lineTo(-0.97512, -0.4711)
+loop_1 = loop_1.lineTo(-0.75835, -0.79552)
+loop_1 = loop_1.lineTo(-0.43392, -1.0123)
+loop_1 = loop_1.lineTo(-0.05124, -1.08842)
+loop_1 = loop_1.lineTo(0.33144, -1.0123)
+loop_1 = loop_1.lineTo(0.65587, -0.79552)
+loop_1 = loop_1.lineTo(0.87264, -0.4711)
+loop_1 = loop_1.lineTo(0.94876, -0.08842)
+loop_1 = loop_1.lineTo(0.87264, 0.29427)
+loop_1 = loop_1.lineTo(0.65587, 0.61869)
+loop_1 = loop_1.lineTo(0.33144, 0.83546)
+loop_1 = loop_1.lineTo(-0.05124, 0.91158)
+loop_1 = loop_1.lineTo(-0.43392, 0.83546)
+loop_1 = loop_1.lineTo(-0.75835, 0.61869)
+loop_1 = loop_1.lineTo(-0.97512, 0.29427)
+loop_1 = loop_1.lineTo(-1.04526, -0.05835)
+loop_1 = loop_1.lineTo(-1.05124, -0.08842)
+loop_1 = loop_1.close()
+loop_2 = sketch_1.moveTo(-0.05124, -0.08842)
+loop_2 = loop_2.circle(0.09874)
+sketch_1=sketch_1.add(loop_1).add(loop_2)
+solid_1 = sketch_1.extrude(0.23)
+
+result = solid_1

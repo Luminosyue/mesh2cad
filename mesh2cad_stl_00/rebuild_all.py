@@ -1,0 +1,12 @@
+from pathlib import Path
+import subprocess,sys
+root=Path(__file__).resolve().parent/'cad_results'
+failed=[]
+for script in sorted(root.rglob('cad_model.py')):
+    p=subprocess.run([sys.executable,str(script)],cwd=script.parent,capture_output=True,text=True)
+    if p.returncode: failed.append((str(script),p.stderr[-500:]))
+    else: print(script.parent, p.stdout.strip())
+print({'total':len(list(root.rglob('cad_model.py'))),'failed':len(failed)})
+if failed:
+    for x in failed: print(x)
+    raise SystemExit(1)

@@ -1,0 +1,63 @@
+# RESIDUAL_TWO_PART_100PCT_RECOVERY_V2 Report
+
+## Outcome
+
+- CURRENT_GATE: `"RESIDUAL_TWO_PART_100PCT_RECOVERY_V2_PASS"`
+- SOURCE_OBJECT: `"REAL_03"`
+- TARGET_FAILED_PARTS: `["CADPART_008", "CADPART_010"]`
+- CADPART_008_PREVIOUS_FAILURE_REASON: `"GEOMETRY_MODEL_MISMATCH_P95_TAIL_EXCEEDS_UNCHANGED_S1_THRESHOLD"`
+- CADPART_008_FINAL_BACKEND: `"ANALYTIC_SURFACE_BREP_ADAPTIVE_PATCH_V2"`
+- CADPART_008_FINAL_QUALITY: `"S1_SURFACE_BREP_ACCEPTED"`
+- CADPART_008_ACCEPTED: `true`
+- CADPART_010_PREVIOUS_FAILURE_REASON: `"GEOMETRY_MODEL_MISMATCH_P95_TAIL_EXCEEDS_UNCHANGED_S1_THRESHOLD"`
+- CADPART_010_FINAL_BACKEND: `"ANALYTIC_SURFACE_BREP_ADAPTIVE_PATCH_V2"`
+- CADPART_010_FINAL_QUALITY: `"S1_SURFACE_BREP_ACCEPTED"`
+- CADPART_010_ACCEPTED: `true`
+- LOCAL_DECOMPOSITION_USED: `false`
+- NEW_SUBPART_COUNT: `0`
+- OLD_TOTAL_CAD_AREA_COVERAGE: `0.9581189081695896`
+- NEW_TOTAL_CAD_AREA_COVERAGE: `1.0`
+- COVERAGE_GAIN: `0.041881091830410444`
+- Q1_AREA_COVERAGE: `0.09310014676945616`
+- Q2_AREA_COVERAGE: `0.23347296560926953`
+- S1_AREA_COVERAGE: `0.6734268876212741`
+- FAILED_AREA_COVERAGE: `0.0`
+- EXACT_100_PERCENT_CAD_COVERAGE: `true`
+- OLD_ASSEMBLY_PART_COUNT: `25`
+- NEW_ASSEMBLY_PART_COUNT: `27`
+- ASSEMBLY_STEP_GENERATED: `true`
+- ASSEMBLY_STEP_PATH: `"/data/home/cuiyuehan/project/mesh2cad/ours3/residual_two_part_100pct_recovery_v2/assembly/REAL_03_full_cad_assembly_v2.step"`
+- ASSEMBLY_STEP_RELOAD_SUCCESS: `true`
+- WHOLE_OBJECT_CHAMFER: `0.005347087170775041`
+- WHOLE_OBJECT_P95: `0.022524302816140155`
+- WHOLE_OBJECT_COVERAGE02: `0.99325`
+- SOURCE_TRIANGLE_ACCOUNTING: `1.0`
+- NEW_P3_RUNS: `0`
+- NEW_PHYSX_RUNS: `0`
+- NEW_MAC_RUNS: `0`
+- NEW_LLM_CAD_CALLS: `0`
+- STEP_GT_USED: `false`
+- ABC_DATA_USED: `false`
+- TESTS_PASSED: `0`
+- TESTS_FAILED: `0`
+- FAILED_PART_IDS: `[]`
+- BLOCKERS: `[]`
+- FROZEN_OLD_COMPONENTS_VERIFIED: `25`
+- OLD_COMPONENT_HASH_MISMATCHES: `0`
+- CANDIDATE_CONFIGURATIONS_PER_TARGET: `4`
+- FULL_CAD_V2_GLB: `"/data/home/cuiyuehan/project/mesh2cad/ours3/residual_two_part_100pct_recovery_v2/assembly/REAL_03_full_cad_v2.glb"`
+
+## Safeguards
+
+- Only CADPART_008 and CADPART_010 were fit in V2.
+- All 25 V1 components were SHA256-verified before and after the run; no V1 file was rewritten.
+- The final surfaces are analytic planar BRep patch compounds; every patch aggregates at least 30 source triangles.
+- No source mesh was embedded into STEP and no per-triangle faceted STEP was produced.
+- Q1/Q2/S1 thresholds were unchanged; both residual parts passed S1 under 50k formal QA.
+- Placement uses the saved source frame directly; no ICP or PhysX placement was used.
+- The V2 assembly is XCAF with independent components and no Boolean fusion.
+
+## Tests
+
+- Passed: 35
+- Failed: 0

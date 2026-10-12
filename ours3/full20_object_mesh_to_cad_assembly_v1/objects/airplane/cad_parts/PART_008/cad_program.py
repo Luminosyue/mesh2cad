@@ -1,0 +1,1 @@
+/data/home/cuiyuehan/project/mesh2cad/p3_xpart_open_cases/airplane/xpart_parts_cadquery_features/PART_008/PART_008.py

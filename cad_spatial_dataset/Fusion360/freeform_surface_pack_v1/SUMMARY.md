@@ -1,0 +1,50 @@
+# freeform_surface_pack_v1
+
+- CURRENT_GATE = **FREEFORM_SURFACE_PACK_V1_PASS**
+- SOURCE_PARTS = 624
+- PARTS_WITH_FREEFORM = 37
+- BSPLINE_FACES_FOUND = 729
+- BSPLINE_FACES_VALID = 729
+- BSPLINE_FACES_FAILED = 0
+- TRAIN/VAL/TEST parts = 25/6/6
+- TRAIN/VAL/TEST patches = 302/222/205
+- PATCH_POINTS = 1024x6
+- BOUNDARY_POINTS = 256x6
+- RATIONAL_RATIO = 0.0000
+- PERIODIC_RATIO = 0.0000
+- INNER_LOOP_RATIO = 0.0000
+- ANALYTIC_PLANE/CYLINDER = 700/650
+
+## Degree histogram
+
+- 3x1: 679
+- 5x1: 50
+
+## Control grid size histogram
+
+- 5x2: 663
+- 7x2: 1
+- 10x2: 1
+- 12x2: 12
+- 13x2: 1
+- 15x2: 12
+- 16x2: 1
+- 19x2: 1
+- 20x2: 4
+- 25x2: 3
+- 28x2: 1
+- 30x2: 5
+- 35x2: 2
+- 40x2: 1
+- 50x2: 5
+- 55x2: 3
+- 64x2: 1
+- 68x2: 4
+- 75x2: 6
+- 84x2: 1
+- 95x2: 1
+
+## Boundary curve types
+
+- BSPLINE: 1462
+- LINE: 1458

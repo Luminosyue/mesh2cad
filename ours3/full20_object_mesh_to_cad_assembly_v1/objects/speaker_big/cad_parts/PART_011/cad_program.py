@@ -1,0 +1,1 @@
+/data/home/cuiyuehan/project/mesh2cad/p3_xpart_open_cases/speaker_big/xpart_parts_cadquery_features/PART_011/PART_011.py

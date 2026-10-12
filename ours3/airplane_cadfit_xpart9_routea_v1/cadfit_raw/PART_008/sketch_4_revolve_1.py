@@ -1,0 +1,32 @@
+import cadquery as cq
+import math
+
+# Plane definition from JSON
+origin = (0.0, -0.5, 0.0)
+normal = (0.0, 1.0, 0.0)
+xdir = (1.0, 0.0, 0.0)
+plane_1 = cq.Plane(origin=origin, normal=normal, xDir=xdir)
+sketch_1 = cq.Workplane(plane_1)
+
+sketch_1 = sketch_1.moveTo(0.08625, 0.04485)
+sketch_1 = sketch_1.lineTo(0.06709, 0.03102)
+sketch_1 = sketch_1.threePointArc((0.0491, 0.01437), (0.0298, -0.00197))
+sketch_1 = sketch_1.lineTo(0.01377, -0.01239)
+sketch_1 = sketch_1.threePointArc((-0.03719, -0.02414), (-0.09096, -0.01732))
+sketch_1 = sketch_1.threePointArc((-0.10411, -0.01359), (-0.11138, -0.011))
+sketch_1 = sketch_1.lineTo(-0.13079, 0.00402)
+sketch_1 = sketch_1.threePointArc((-0.14242, 0.01507), (-0.1536, 0.02533))
+sketch_1 = sketch_1.lineTo(-0.16548, 0.03492)
+sketch_1 = sketch_1.lineTo(-0.18312, 0.03935)
+sketch_1 = sketch_1.lineTo(-0.19467, 0.02519)
+sketch_1 = sketch_1.lineTo(-0.18507, 0.00656)
+sketch_1 = sketch_1.threePointArc((-0.17004, -0.00753), (-0.16198, -0.01515))
+sketch_1 = sketch_1.threePointArc((-0.03958, -0.06454), (0.07533, -0.01096))
+sketch_1 = sketch_1.threePointArc((0.08476, -0.00239), (0.09446, 0.00626))
+sketch_1 = sketch_1.lineTo(0.10472, 0.01853)
+sketch_1 = sketch_1.lineTo(0.10402, 0.03399)
+sketch_1 = sketch_1.lineTo(0.08625, 0.04485)
+sketch_1 = sketch_1.close()
+result = sketch_1.revolve(angleDegrees=360.0, axisStart=(-0.041999999999999996, -0.015, -0.499), axisEnd=(0.957, 0.019, -0.499))
+cq.exporters.export(result, '/data/home/cuiyuehan/project/mesh2cad/ours3/airplane_cadfit_xpart9_routea_v1/cadfit_raw/PART_008/sketch_4_revolve_1.stl')
+print('Successfully revolved and exported to /data/home/cuiyuehan/project/mesh2cad/ours3/airplane_cadfit_xpart9_routea_v1/cadfit_raw/PART_008/sketch_4_revolve_1.stl')

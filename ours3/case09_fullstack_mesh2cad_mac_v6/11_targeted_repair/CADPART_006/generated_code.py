@@ -1,0 +1,2 @@
+import argparse,subprocess,sys
+p=argparse.ArgumentParser();p.add_argument("--source-mesh",required=True);p.add_argument("--output",required=True);a=p.parse_args();raise SystemExit(subprocess.run([sys.executable,'/data/home/cuiyuehan/project/mesh2cad/ours3/case09_fullstack_mesh2cad_mac_v6/scripts/v6_runtime.py',"--source-mesh",a.source_mesh,"--representation",'PROPELLER_REPAIR_MASTER_BLADE_PATTERN',"--output",a.output,"--sections","12","--profile-count","10","--tolerance","0.0002"],check=False).returncode)

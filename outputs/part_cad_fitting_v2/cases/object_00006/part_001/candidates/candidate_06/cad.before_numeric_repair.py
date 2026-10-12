@@ -1,0 +1,3 @@
+import cadquery as cq
+plane = cq.Plane(origin=[-0.4822295005881427, -0.015953810251900107, 0.07013576119380585], xDir=[0.0, -0.009999833334166664, -0.9999500004166653], normal=[1.0, 0.0, 0.0])
+result = cq.Workplane(plane).circle(np.float64(0.10663518082998902)).extrude(np.float64(0.9656054162575665))

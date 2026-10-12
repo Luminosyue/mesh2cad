@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+"""LLM-synthesized parametric CAD; deliberately independent of source mesh."""
+from pathlib import Path
+import math
+import cadquery as cq
+import trimesh
+
+CASE_ID = "CADPART_000"
+VERSION = "v2"
+AXIS_ORIGIN = (-0.911122115, 0.111734430, -0.301673560)
+AXIS_DIRECTION = (0.020500331, -0.008606524, 0.999752802)
+Z_MIN, Z_MAX = -0.452251978, 0.452690637
+BARREL_RADIUS = 0.08365
+NECK_RADIUS = 0.0505
+SHOULDER_BOTTOM = -0.382
+SHOULDER_TOP = -0.302
+CAP_START = 0.407
+CAD_WORK_SCALE = 1000.0  # source units -> stable STEP millimetres; exactly inverted for evaluation mesh
+
+def build():
+    # Profile coordinates are (radius, axial position) on the global XZ plane.
+    outer = [
+        (0.0, Z_MIN),
+        (NECK_RADIUS * 0.78, Z_MIN),
+        (NECK_RADIUS, Z_MIN + 0.018),
+        (NECK_RADIUS, SHOULDER_BOTTOM),
+        (BARREL_RADIUS * 0.92, SHOULDER_TOP - 0.025),
+        (BARREL_RADIUS, SHOULDER_TOP),
+        (BARREL_RADIUS, CAP_START),
+        (BARREL_RADIUS * 0.96, CAP_START + 0.022),
+        (BARREL_RADIUS * 0.72, Z_MAX - 0.010),
+        (0.0, Z_MAX),
+    ]
+    outer = [(r*CAD_WORK_SCALE, z*CAD_WORK_SCALE) for r,z in outer]
+    solid = cq.Workplane("XZ").moveTo(*outer[0]).spline(outer[1:]).lineTo(0.0, Z_MIN*CAD_WORK_SCALE).close().revolve(360.0, (0, Z_MIN*CAD_WORK_SCALE), (0, Z_MAX*CAD_WORK_SCALE))
+    axis = cq.Vector(*AXIS_DIRECTION); z = cq.Vector(0,0,1); cross = z.cross(axis)
+    dot = max(-1.0, min(1.0, z.dot(axis))); angle = math.degrees(math.acos(dot))
+    if cross.Length > 1e-12: solid = solid.rotate((0,0,0), cross.toTuple(), angle)
+    return solid.translate(tuple(x*CAD_WORK_SCALE for x in AXIS_ORIGIN))
+
+if __name__ == "__main__":
+    root = Path(__file__).resolve().parents[1]
+    result = build()
+    val = result.val()
+    if val is None or val.Volume() <= 0 or not val.isValid(): raise RuntimeError("empty or invalid solid")
+    cq.exporters.export(result, str(root / "step" / f"{CASE_ID}_{VERSION}.step"))
+    stl = root / "recon_mesh" / f"{CASE_ID}_{VERSION}.stl"
+    cq.exporters.export(result, str(stl), tolerance=0.1, angularTolerance=0.1)
+    recon = trimesh.load(stl, force="mesh", process=False)
+    recon.apply_scale(1.0 / CAD_WORK_SCALE)
+    recon.export(stl)
+    print(f"SOLID_VALID volume={val.Volume():.12g}")

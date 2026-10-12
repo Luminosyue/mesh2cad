@@ -1,0 +1,73 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.0, 0.0, -0.72), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.42056, 0.0577)
+loop_1 = loop_1.threePointArc((-0.41634, 0.01465), (-0.40672, -0.02575))
+loop_1 = loop_1.threePointArc((-0.39764, -0.04651), (-0.38826, -0.06519))
+loop_1 = loop_1.threePointArc((-0.37838, -0.08596), (-0.36768, -0.10436))
+loop_1 = loop_1.threePointArc((-0.3241, -0.16135), (-0.27234, -0.20555))
+loop_1 = loop_1.threePointArc((-0.24988, -0.2206), (-0.22645, -0.22972))
+loop_1 = loop_1.threePointArc((-0.17465, -0.24789), (-0.12481, -0.26224))
+loop_1 = loop_1.threePointArc((-0.10627, -0.26943), (-0.08898, -0.27912))
+loop_1 = loop_1.threePointArc((-0.0671, -0.29455), (-0.04693, -0.31259))
+loop_1 = loop_1.lineTo(-0.0272, -0.33226)
+loop_1 = loop_1.threePointArc((-0.01922, -0.34202), (-0.013, -0.35258))
+loop_1 = loop_1.threePointArc((-0.00343, -0.36597), (0.00583, -0.37775))
+loop_1 = loop_1.threePointArc((0.01712, -0.39412), (0.02906, -0.40795))
+loop_1 = loop_1.lineTo(0.04463, -0.41815)
+loop_1 = loop_1.threePointArc((0.05467, -0.42173), (0.06414, -0.42166))
+loop_1 = loop_1.threePointArc((0.07231, -0.42127), (0.079, -0.4191))
+loop_1 = loop_1.threePointArc((0.10629, -0.4099), (0.12967, -0.39673))
+loop_1 = loop_1.threePointArc((0.15681, -0.38012), (0.18128, -0.36324))
+loop_1 = loop_1.threePointArc((0.20565, -0.34605), (0.22654, -0.32762))
+loop_1 = loop_1.threePointArc((0.23662, -0.31614), (0.24504, -0.30514))
+loop_1 = loop_1.lineTo(0.25079, -0.29217)
+loop_1 = loop_1.threePointArc((0.24721, -0.27675), (0.24174, -0.2676))
+loop_1 = loop_1.threePointArc((0.23256, -0.25575), (0.22355, -0.24546))
+loop_1 = loop_1.lineTo(0.21754, -0.23495)
+loop_1 = loop_1.threePointArc((0.21445, -0.22911), (0.21257, -0.22337))
+loop_1 = loop_1.lineTo(0.20626, -0.21108)
+loop_1 = loop_1.threePointArc((0.20557, -0.19947), (0.20617, -0.18827))
+loop_1 = loop_1.threePointArc((0.20565, -0.17436), (0.20696, -0.16082))
+loop_1 = loop_1.threePointArc((0.2072, -0.15031), (0.20868, -0.14035))
+loop_1 = loop_1.threePointArc((0.2099, -0.12073), (0.21373, -0.10156))
+loop_1 = loop_1.threePointArc((0.21922, -0.08588), (0.2257, -0.07073))
+loop_1 = loop_1.threePointArc((0.23109, -0.05621), (0.23762, -0.04241))
+loop_1 = loop_1.threePointArc((0.24949, -0.01528), (0.26002, 0.01023))
+loop_1 = loop_1.threePointArc((0.26858, 0.054), (0.27134, 0.09592))
+loop_1 = loop_1.threePointArc((0.27036, 0.1135), (0.26849, 0.12948))
+loop_1 = loop_1.threePointArc((0.26377, 0.16335), (0.25429, 0.19379))
+loop_1 = loop_1.lineTo(0.24446, 0.22632)
+loop_1 = loop_1.threePointArc((0.23634, 0.24343), (0.22785, 0.25862))
+loop_1 = loop_1.threePointArc((0.18978, 0.31375), (0.1437, 0.35743))
+loop_1 = loop_1.threePointArc((0.13022, 0.3679), (0.11669, 0.37565))
+loop_1 = loop_1.threePointArc((0.08897, 0.39214), (0.06236, 0.40634))
+loop_1 = loop_1.threePointArc((0.05009, 0.4105), (0.03863, 0.41247))
+loop_1 = loop_1.lineTo(-0.03457, 0.42485)
+loop_1 = loop_1.threePointArc((-0.06718, 0.4245), (-0.09767, 0.42318))
+loop_1 = loop_1.threePointArc((-0.13964, 0.41766), (-0.17843, 0.40879))
+loop_1 = loop_1.threePointArc((-0.24429, 0.38102), (-0.29985, 0.34213))
+loop_1 = loop_1.threePointArc((-0.31933, 0.32605), (-0.33561, 0.30919))
+loop_1 = loop_1.threePointArc((-0.37671, 0.24932), (-0.40315, 0.18561))
+loop_1 = loop_1.threePointArc((-0.41387, 0.14239), (-0.41841, 0.10068))
+loop_1 = loop_1.threePointArc((-0.42037, 0.0788), (-0.42062, 0.0585))
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.51)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/android_figure_panda_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_002/PART_002.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/android_figure_panda_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_002/PART_002_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

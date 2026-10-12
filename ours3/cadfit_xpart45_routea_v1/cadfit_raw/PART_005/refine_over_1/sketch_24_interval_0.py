@@ -1,0 +1,30 @@
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.93142, -0.12367, 0.03909), normal=(0.99528, 0.09704, 0.00149), xDir=(0.09704, -0.99528, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.30577, 0.54112)
+loop_1 = loop_1.lineTo(0.29202, 0.55725)
+loop_1 = loop_1.lineTo(0.2688, 0.56682)
+loop_1 = loop_1.lineTo(0.2537, 0.57543)
+loop_1 = loop_1.lineTo(0.23555, 0.58077)
+loop_1 = loop_1.lineTo(0.20162, 0.59483)
+loop_1 = loop_1.lineTo(0.18539, 0.59828)
+loop_1 = loop_1.threePointArc((0.16633, 0.6013), (0.15162, 0.60342))
+loop_1 = loop_1.lineTo(0.13745, 0.60552)
+loop_1 = loop_1.threePointArc((0.11475, 0.6072), (0.09746, 0.60829))
+loop_1 = loop_1.threePointArc((0.02841, 0.60906), (-0.03384, 0.60819))
+loop_1 = loop_1.threePointArc((0.07751, 0.61642), (0.18938, 0.62351))
+loop_1 = loop_1.lineTo(0.2749, 0.62406)
+loop_1 = loop_1.lineTo(0.29914, 0.55893)
+loop_1 = loop_1.lineTo(0.31901, 0.55893)
+loop_1 = loop_1.lineTo(0.31877, 0.50431)
+loop_1 = loop_1.lineTo(0.3148, 0.51444)
+loop_1 = loop_1.lineTo(0.30706, 0.53731)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.87)
+
+result = solid_1
+cq.exporters.export(result, '/data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_xpart45_routea_v1/cadfit_raw/PART_005/refine_over_1/sketch_24_interval_0.stl')
+print('Successfully exported 1 solid to /data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_xpart45_routea_v1/cadfit_raw/PART_005/refine_over_1/sketch_24_interval_0.stl')

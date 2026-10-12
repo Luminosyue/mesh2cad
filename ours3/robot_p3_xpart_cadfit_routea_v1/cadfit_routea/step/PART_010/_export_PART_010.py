@@ -1,0 +1,46 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+# Plane definition from JSON
+origin = (0.0, -0.0, 0.0)
+normal = (0.0, 1.0, 0.0)
+xdir = (1.0, 0.0, 0.0)
+plane_1 = cq.Plane(origin=origin, normal=normal, xDir=xdir)
+sketch_1 = cq.Workplane(plane_1)
+
+sketch_1 = sketch_1.moveTo(-0.03972, 0.99267)
+sketch_1 = sketch_1.threePointArc((-0.13686, 0.98324), (-0.2281, 0.9619))
+sketch_1 = sketch_1.lineTo(-0.37084, 0.9212)
+sketch_1 = sketch_1.threePointArc((-0.43051, 0.89966), (-0.48349, 0.87398))
+sketch_1 = sketch_1.threePointArc((-0.58261, 0.80958), (-0.6688, 0.73878))
+sketch_1 = sketch_1.lineTo(0.65643, -0.73305)
+sketch_1 = sketch_1.threePointArc((0.77208, -0.61294), (0.86709, -0.48411))
+sketch_1 = sketch_1.lineTo(0.90551, -0.41591)
+sketch_1 = sketch_1.threePointArc((0.93702, -0.33599), (0.95868, -0.25844))
+sketch_1 = sketch_1.threePointArc((0.98721, -0.1348), (0.99942, -0.0156))
+sketch_1 = sketch_1.threePointArc((0.97662, 0.20219), (0.91034, 0.39949))
+sketch_1 = sketch_1.threePointArc((0.88302, 0.46361), (0.85277, 0.52096))
+sketch_1 = sketch_1.threePointArc((0.83192, 0.55215), (0.81044, 0.57857))
+sketch_1 = sketch_1.threePointArc((0.78641, 0.61052), (0.76224, 0.63753))
+sketch_1 = sketch_1.threePointArc((0.7204, 0.68738), (0.67836, 0.73081))
+sketch_1 = sketch_1.lineTo(0.59911, 0.80411)
+sketch_1 = sketch_1.lineTo(0.53041, 0.84982)
+sketch_1 = sketch_1.threePointArc((0.42398, 0.90254), (0.31996, 0.94366))
+sketch_1 = sketch_1.threePointArc((0.24293, 0.96507), (0.16924, 0.97745))
+sketch_1 = sketch_1.threePointArc((0.13354, 0.98262), (0.10097, 0.98449))
+sketch_1 = sketch_1.threePointArc((0.02929, 0.99007), (-0.03769, 0.99266))
+sketch_1 = sketch_1.close()
+result = sketch_1.revolve(angleDegrees=360.0, axisStart=(-0.004, 0.003, 0.001), axisEnd=(0.665, -0.74, 0.001))
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/robot_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_010/PART_010.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/robot_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_010/PART_010_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

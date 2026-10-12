@@ -1,0 +1,31 @@
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.0, -0.07, 0.0), normal=(0.0, 1.0, 0.0), xDir=(1.0, 0.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.3452, -0.12936)
+loop_1 = loop_1.lineTo(-0.9854, 0.15008)
+loop_1 = loop_1.lineTo(-0.3966, 0.14722)
+loop_1 = loop_1.threePointArc((-0.25371, 0.06812), (-0.09912, 0.05124))
+loop_1 = loop_1.lineTo(0.13952, 0.05163)
+loop_1 = loop_1.lineTo(0.40584, 0.15008)
+loop_1 = loop_1.lineTo(1.0, 0.14716)
+loop_1 = loop_1.lineTo(0.99854, -0.15008)
+loop_1 = loop_1.lineTo(0.39315, -0.14749)
+loop_1 = loop_1.lineTo(0.34657, -0.12988)
+loop_1 = loop_1.close()
+loop_2 = sketch_1.moveTo(0.4, -0.15008)
+loop_2 = loop_2.lineTo(1.0, -0.14833)
+loop_2 = loop_2.lineTo(0.9991, 0.15008)
+loop_2 = loop_2.lineTo(0.39601, 0.14857)
+loop_2 = loop_2.lineTo(0.36846, 0.13783)
+loop_2 = loop_2.lineTo(0.37962, 0.13746)
+loop_2 = loop_2.threePointArc((0.26637, 0.0722), (0.13682, 0.05011))
+loop_2 = loop_2.lineTo(0.3278, -0.0957)
+loop_2 = loop_2.threePointArc((0.23093, -0.06172), (0.13786, -0.0502))
+loop_2 = loop_2.lineTo(0.39995, -0.15006)
+loop_2 = loop_2.close()
+sketch_1=sketch_1.add(loop_1).add(loop_2)
+solid_1 = sketch_1.extrude(0.14)
+
+result = solid_1

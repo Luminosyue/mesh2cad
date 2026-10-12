@@ -1,0 +1,1 @@
+/data/home/cuiyuehan/project/mesh2cad/p3_xpart_open_cases/fire_truck/xpart_parts_cadquery_features/PART_005/PART_005.py

@@ -1,0 +1,1 @@
+当前 canonical CAD DSL/executor 还没有正式 Chamfer 支持，因此本轮按 gate 在 Stage A 停止；没有生成 synthetic64、没有训练或 overfit，也没有修改 EXACT9998、P1、P1-v2、TEST1000 或 Holdout958。下一步只能在独立版本中先完成真实 Chamfer DSL/parser/AST/serializer/executor 与 STEP 闭环，再考虑 synthetic overfit。

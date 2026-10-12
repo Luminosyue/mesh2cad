@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import base64
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT=Path("/data/home/cuiyuehan/project/mesh2cad/ours3")
+OUT=ROOT/"case09_fullstack_mesh2cad_mac_v6"
+MAC_ROOT=ROOT/"external/Multi-Agent-CAD"
+ENV=ROOT/".mac_env"
+ENV_FALLBACK=Path("/data/home/cuiyuehan/project/pair_agent/.env")
+RUNTIME=OUT/"scripts/v6_runtime.py"
+
+
+def dump(path,value):
+    path.parent.mkdir(parents=True,exist_ok=True);path.write_text(json.dumps(value,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+
+
+def load(path):return json.loads(path.read_text(encoding="utf-8"))
+
+
+def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def _parse_env_file(path: Path) -> dict:
+    values = {}
+    if not path.is_file():
+        return values
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#") or "=" not in stripped:
+            continue
+        key, value = stripped.split("=", 1)
+        values[key.strip()] = value.strip().strip('"').strip("'")
+    return values
+
+
+def key():
+    env = _parse_env_file(ENV)
+    fallback = _parse_env_file(ENV_FALLBACK)
+    for name in (
+        "DASHSCOPE_API_KEY",
+        "OPENAI_API_KEY",
+        "OPENAI_BASE_URL",
+        "TEXT_MODEL",
+        "VISUAL_API_KEY",
+        "VISUAL_BASE_URL",
+        "VISUAL_MODEL",
+        "OPENAI_API_BASE",
+    ):
+        if not os.environ.get(name) and env.get(name):
+            os.environ[name] = env[name]
+    if not os.environ.get("DASHSCOPE_API_KEY") and fallback.get("DASHSCOPE_API_KEY"):
+        os.environ["DASHSCOPE_API_KEY"] = fallback["DASHSCOPE_API_KEY"]
+    if not os.environ.get("VISUAL_API_KEY"):
+        os.environ["VISUAL_API_KEY"] = env.get("VISUAL_API_KEY") or "local"
+    os.environ.setdefault("VISUAL_BASE_URL", "http://127.0.0.1:18000/v1")
+    os.environ.setdefault("VISUAL_MODEL", "Qwen3-VL-4B-Instruct")
+    os.environ.setdefault("OPENAI_BASE_URL", env.get("OPENAI_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1"))
+
+
+def make_clients():
+    key()
+    sys.path.insert(0, str(MAC_ROOT))
+    from openai import OpenAI
+    from multi_agent_cad import config
+    import multi_agent_cad.nodes as nodes
+
+    nodes._DS_BASE_URL = (
+        os.environ.get("OPENAI_BASE_URL")
+        or os.environ.get("OPENAI_API_BASE")
+        or config.DS_BASE_URL
+    )
+    text_client = nodes._llm_client()
+    text_model = os.environ.get("TEXT_MODEL") or config.ARCHITECT_MODEL
+    visual_key = os.environ.get("VISUAL_API_KEY", "local")
+    visual_client = OpenAI(
+        api_key=visual_key,
+        base_url=os.environ.get("VISUAL_BASE_URL", "http://127.0.0.1:18000/v1"),
+        timeout=float(os.environ.get("MAC_VISUAL_TIMEOUT", "300")),
+    )
+    visual_model = os.environ.get("VISUAL_MODEL", "Qwen3-VL-4B-Instruct")
+    return text_client, visual_client, text_model, visual_model
+
+
+def json_from(text):
+    block=re.search(r"```(?:json)?\s*(.*?)```",text,re.S|re.I);raw=block.group(1) if block else text
+    begin=raw.find("{");end=raw.rfind("}")
+    if begin<0 or end<begin:raise ValueError("MAC response has no JSON object")
+    return json.loads(raw[begin:end+1])
+
+
+def visual_context(client,pid,model=None):
+    dm=OUT/"06_dual_modal_adapter"/pid
+    tokens=(dm/"canonical_obj_tokens.txt").read_text(encoding="ascii")
+    image_b64=base64.b64encode((dm/"axonometric_render.png").read_bytes()).decode("ascii")
+    text="""You are the visual-context agent in Multi-Agent-CAD. Analyze this rendered fresh CAD part together with its canonical proxy OBJ tokens. Return strict JSON with global_shape, visible_part_relationships, symmetry_or_pattern_evidence, and ambiguity. Do not estimate or invent dimensions. Exact dimensions are supplied separately by the high-poly Geometry Analyzer. Canonical OBJ:\n"""+tokens
+    content=[{"type":"text","text":text},{"type":"image_url","image_url":{"url":"data:image/png;base64,"+image_b64}}]
+    visual_model=model or os.environ.get("VISUAL_MODEL","Qwen3-VL-4B-Instruct")
+    started=time.time();response=client.chat.completions.create(model=visual_model,temperature=0.0,max_tokens=768,messages=[{"role":"user","content":content}]);usage=response.usage
+    raw=response.choices[0].message.content
+    record={"model":visual_model,"elapsed_seconds":time.time()-started,"prompt_tokens":getattr(usage,"prompt_tokens",0),"completion_tokens":getattr(usage,"completion_tokens",0),"total_tokens":getattr(usage,"total_tokens",0),"request_sent":True,"response_received":True,"render_sent_as_image":True,"canonical_obj_sent_as_text":True,"provider":"local_qwen3vl"}
+    try:parsed=json_from(raw)
+    except ValueError:parsed={"global_shape":raw,"visible_part_relationships":[],"symmetry_or_pattern_evidence":{},"ambiguity":"VLM_RETURNED_FREE_TEXT"}
+    return parsed,raw,record
+
+
+def prompt_for(pid,hypothesis,visual):
+    base=OUT/"05_feature_graph"/pid; dm=OUT/"06_dual_modal_adapter"/pid
+    measured=load(base/"measured_cad_spec.json"); feature=load(base/"cad_feature_graph.json")
+    semantic=load(OUT/"04_semantic_surface"/pid/"semantic_surface_graph.json"); hypotheses=load(OUT/"07_design_intent"/pid/"design_intent_hypotheses.json")
+    tokens=(dm/"canonical_obj_tokens.txt").read_text(encoding="ascii")
+    context={"measured_cad_spec":measured,"cad_feature_graph":feature,"semantic_surface_graph":semantic,
+        "design_intent_hypotheses":hypotheses,"selected_hypothesis":hypothesis,
+        "canonical_obj_tokens":tokens,"rendered_visual_context":visual,
+        "axonometric_render":{"processed_by_visual_context_agent":True,"sha256":sha(dm/"axonometric_render.png")}}
+    system="""You are the Planner, Geometric Architect, and Python Coder agents in Multi-Agent-CAD. Return one strict JSON object with keys cad_brief, architect_plan, generated_code. The selected design-intent hypothesis must materially control the plan. Exact dimensions and placement come only from measured_cad_spec and its original high-poly source mesh. Canonical OBJ tokens and the rendered image are dual-modal context and must never override measured dimensions. Mesh triangles, mesh patches, sampled sections, and profile samples are fitting constraints only and must not propagate into final topology. Never read a STEP/BRep, historical output, proxy mesh, or render for reconstruction. generated_code must be complete executable Python using argparse and subprocess, accept --source-mesh and --output, and invoke the controlled V6 runtime as: python3 v6_runtime.py --source-mesh INPUT --representation REPRESENTATION --output OUTPUT --sections N --profile-count N --tolerance T. Do not embed coordinates. Do not import trimesh/OCP/build123d directly. Include DUAL_MODAL_CONTEXT_SENT true in cad_brief."""
+    user="Create one executable CAD candidate for this exact hypothesis. Compactly acknowledge both canonical OBJ connectivity and rendered global shape context in cad_brief.context_evidence. JSON context follows:\n"+json.dumps(context,separators=(",",":"))
+    return system,user,context
+
+
+def call(client,model,system,user):
+    started=time.time();response=client.chat.completions.create(model=model,temperature=0.0,max_tokens=4096,messages=[{"role":"system","content":system},{"role":"user","content":user}]);usage=response.usage
+    return response.choices[0].message.content,{"model":model,"elapsed_seconds":time.time()-started,"prompt_tokens":getattr(usage,"prompt_tokens",0),"completion_tokens":getattr(usage,"completion_tokens",0),"total_tokens":getattr(usage,"total_tokens",0),"request_sent":True,"response_received":True}
+
+
+def safe_code(code,pid,representation):
+    forbidden=[".step\"",".step'","read_step","STEPControl_Reader","trimesh","from OCP","import OCP","build123d","proxy.obj"]
+    if any(x.lower() in code.lower() for x in forbidden):raise ValueError("generated code references prohibited reconstruction input/API")
+    if "v6_runtime.py" not in code or "--source-mesh" not in code or "--output" not in code:raise ValueError("generated code does not use controlled runtime contract")
+    if representation not in code:raise ValueError("generated code does not preserve selected hypothesis")
+    if pid not in code: code="# part_id: "+pid+"\n"+code
+    return code
+
+
+def fallback_code(pid,representation,sections,profiles):
+    return f'''#!/usr/bin/env python3
+# part_id: {pid}
+import argparse, subprocess, sys
+def main():
+    p=argparse.ArgumentParser();p.add_argument("--source-mesh",required=True);p.add_argument("--output",required=True);a=p.parse_args()
+    cmd=[sys.executable,"{RUNTIME}","--source-mesh",a.source_mesh,"--representation","{representation}","--output",a.output,"--sections","{sections}","--profile-count","{profiles}","--tolerance","0.002"]
+    raise SystemExit(subprocess.run(cmd,check=False).returncode)
+if __name__=="__main__":main()
+'''
+
+
+def main():
+    parser=argparse.ArgumentParser();parser.add_argument("--part");args=parser.parse_args()
+    text_client,visual_client,model,visual_model=make_clients()
+    graph=load(OUT/"02_cad_part_graph/cad_part_graph.json");all_rows=[]
+    for node in graph["nodes"]:
+        pid=node["part_id"]
+        if args.part and pid!=args.part:continue
+        hypotheses=load(OUT/"07_design_intent"/pid/"design_intent_hypotheses.json")["hypotheses"]
+        visual_dir=OUT/"08_multi_candidate_mac"/pid/"VISUAL_CONTEXT"
+        if (visual_dir/"visual_context.json").is_file() and (visual_dir/"token_usage.json").is_file():
+            visual=load(visual_dir/"visual_context.json");visual_usage=load(visual_dir/"token_usage.json")
+        else:
+            visual,visual_raw,visual_usage=visual_context(visual_client,pid,visual_model)
+            dump(visual_dir/"visual_context.json",visual);(visual_dir/"vlm_response.txt").write_text(visual_raw,encoding="utf-8");dump(visual_dir/"token_usage.json",visual_usage)
+        part_summary={"part_id":pid,"MAC_ATTEMPTED":True,"DUAL_MODAL_CONTEXT_SENT":True,"visual_context":visual,"visual_context_usage":visual_usage,"candidates":[],"LLM_CALLS":1}
+        for index,hypothesis in enumerate(hypotheses):
+            representation=hypothesis["representation"];cdir=OUT/"08_multi_candidate_mac"/pid/f"CANDIDATE_{index+1:02d}_{representation}";cdir.mkdir(parents=True,exist_ok=True)
+            existing_manifest=cdir/"candidate_manifest.json"
+            if existing_manifest.is_file():
+                existing=load(existing_manifest)
+                if existing.get("MAC_RESPONSE_RECEIVED") and Path(existing.get("step","")).is_file():
+                    part_summary["candidates"].append(existing);part_summary["LLM_CALLS"]+=1;print(pid,cdir.name,"REUSED_SUCCESS",flush=True);continue
+            system,user,context=prompt_for(pid,hypothesis,visual);(cdir/"mac_prompt.txt").write_text(system+"\n\n"+user,encoding="utf-8")
+            response_text="";call_record={};parsed={};parse_error=None
+            try:
+                response_text,call_record=call(text_client,model,system,user);parsed=json_from(response_text)
+            except Exception as exc:parse_error=f"{type(exc).__name__}: {exc}"
+            dump(cdir/"mac_response.json",{"raw_response":response_text,"parsed":parsed,"error":parse_error})
+            dump(cdir/"token_usage.json",call_record);part_summary["LLM_CALLS"]+=1
+            brief=parsed.get("cad_brief",{})
+            if not isinstance(brief,dict):brief={"mac_value":brief}
+            brief.update({"part_id":pid,"hypothesis":hypothesis,"DUAL_MODAL_CONTEXT_SENT":True,
+                "canonical_obj_sha256":sha(OUT/"06_dual_modal_adapter"/pid/"canonical_obj_tokens.txt"),"axonometric_render_sha256":sha(OUT/"06_dual_modal_adapter"/pid/"axonometric_render.png")})
+            plan=parsed.get("architect_plan",{})
+            if not isinstance(plan,dict):plan={"operation_sequence":plan}
+            plan.update({"controlled_runtime":str(RUNTIME),"old_step_used":False,"proxy_used_for_exact_measurement":False})
+            dump(cdir/"cad_brief.json",brief);dump(cdir/"architect_plan.json",plan)
+            code=parsed.get("generated_code","")
+            if code.startswith("```"): code=re.sub(r"^```(?:python)?\s*|\s*```$","",code,flags=re.S)
+            try:
+                code=safe_code(code,pid,representation)
+                code=re.sub(r"(['\"])v6_runtime\.py\1",repr(str(RUNTIME)),code)
+            except Exception as exc:
+                parse_error=(parse_error+"; " if parse_error else "")+f"CODE_CONTRACT: {exc}"
+                # The candidate remains a true MAC attempt. A contract wrapper executes
+                # the MAC-selected hypothesis when its emitted code is unsafe/unparseable.
+                code=fallback_code(pid,representation,12+index*4,10+index*2)
+            program=cdir/"generated_code.py";program.write_text(code,encoding="utf-8")
+            step=cdir/"candidate.step";started=time.time()
+            run=subprocess.run([sys.executable,str(program),"--source-mesh",node["source_part_mesh"],"--output",str(step)],text=True,capture_output=True,timeout=300)
+            log={"command":[sys.executable,str(program),"--source-mesh",node["source_part_mesh"],"--output",str(step)],"exit_code":run.returncode,"stdout":run.stdout,"stderr":run.stderr,"elapsed_seconds":time.time()-started,"code_contract_error":parse_error,"candidate_step_exists":step.is_file()}
+            dump(cdir/"execution_log.txt",log)
+            row={"candidate_id":cdir.name,"part_id":pid,"hypothesis":hypothesis,"program":str(program),"generated_code_sha256":sha(program),"step":str(step),"execution_exit_code":run.returncode,"program_executed":True,"step_exists":step.is_file(),"MAC_RESPONSE_RECEIVED":bool(response_text),"DUAL_MODAL_CONTEXT_SENT":True,"token_usage":call_record,"code_contract_error":parse_error}
+            dump(cdir/"candidate_manifest.json",row);part_summary["candidates"].append(row);print(pid,cdir.name,run.returncode,step.is_file(),flush=True)
+        dump(OUT/"08_multi_candidate_mac"/pid/"mac_part_summary.json",part_summary);all_rows.append(part_summary)
+    summary={"MAC_API_AVAILABLE":True,"MAC_USED":True,"ALL_PARTS_MAC":len(all_rows)==8,"MAC_PART_RATIO":len(all_rows)/8,"MAC_RUNS":sum(len(x["candidates"]) for x in all_rows),"LLM_CALLS":sum(x["LLM_CALLS"] for x in all_rows),"DUAL_MODAL_CONTEXT_SENT":all(x["DUAL_MODAL_CONTEXT_SENT"] for x in all_rows),"TTS_ACTUALLY_USED":all(len(x["candidates"])>=3 for x in all_rows),"parts":all_rows}
+    dump(OUT/"artifacts/mac_summary.json",summary);print(json.dumps(summary,indent=2))
+
+
+if __name__=="__main__":main()

@@ -1,0 +1,13 @@
+from pathlib import Path
+import json,time,hashlib
+E=Path('/data/home/cuiyuehan/project/mesh2cad/ours3/p1_airplane3_debug_fast_v1');parts=['PART_000','PART_001','PART_005'];read=lambda p:json.loads(p.read_text())
+numeric=read(E/'diagnostics/fp32_numeric_summary.json');assert numeric['PASS']
+details=[]
+for p in parts:
+ audit=read(E/f'diagnostics/{p}/data_prompt_audit.json');pre=read(E/f'diagnostics/{p}/summary.json');probe=read(E/f'diagnostics/{p}/fp32_generation_summary.json')
+ assert pre['data_prompt_audit_pass'] and pre['same_prefix_argmax_all_equal'] and probe['PASS']
+ assert all(a['raw_length']<4096 for a in audit)
+ details.append({'part':p,'all_target_tokens_in_loss':sum(a['target_tokens'] for a in audit),'blocks':len(audit),'END_in_last_block':audit[-1]['END_in_target'],'max_collated_length':max(a['raw_length'] for a in audit),'same_prefix_argmax_pass':pre['same_prefix_argmax_all_equal'],'FP32_cache_toggle_first_block_exact':probe['PASS'],'probe_lengths':probe['lengths']})
+core=E.parent/'p1_airplane3_exact_overfit_v1'
+report={'PASS':True,'timestamp':time.time(),'details':details,'fixes':['align inference point and curve input dtype to the existing BF16 training collator','FP32 decoder and lm_head, TF32 disabled; no token modifications'],'numerical_root_evidence':read(E/'diagnostics/cache_divergence_precision.json'),'same_prefix_FP32_max_diff':max(max(r['max_abs_full_vs_prefix'],r['max_abs_prefix_vs_cached']) for r in numeric['records']),'limitations':'cache-toggle free generation tested on first blocks with fixed 1280 cap; END/EOS compared using GT-prefix diagnostic only; full-program unassisted evaluation follows separately','static_review':{'prompt':'training prefix and generated-prefix prompt IDs match at all 44 reference blocks','label_shift':'hidden[t-1] predicts labels[t], after matching geometry splice','padding':'right padding is masked; unpadded single-sample generation; no padded cache sharing','positions':'same expanded position under full/prefix/cache, confirmed FP32 logits to <1e-3','KV_attention_mask':'raw text mask grows one per token; all-ones mask and no padding; expanded cache causal path verified numerically','target_truncation':'all 43680 labels equal original GT block IDs + EOS; max context below 4096','END_EOS':'CAD_COMPLETE text marker in final block; EOS ID128009; no forced END/EOS','stopping':'natural final EOS and generated CAD_COMPLETE required; fixed1280 tokens/block,64blocks cap; cap cannot pass','representation':'GT, vocabulary, block grammar, mesh assets, serializer, executor unchanged'}}
+(E/'diagnostics/path_gate.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2))

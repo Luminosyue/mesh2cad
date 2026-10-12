@@ -1,0 +1,18 @@
+import cadquery as cq
+import math
+
+# Plane definition from JSON
+origin = (0.0, -0.006, 0.0)
+normal = (0.0, 1.0, 0.0)
+xdir = (1.0, 0.0, 0.0)
+plane_1 = cq.Plane(origin=origin, normal=normal, xDir=xdir)
+sketch_1 = cq.Workplane(plane_1)
+
+sketch_1 = sketch_1.moveTo(0.9651, 0.34812)
+sketch_1 = sketch_1.threePointArc((0.40192, 0.85005), (-0.09254, 0.31239))
+sketch_1 = sketch_1.lineTo(-0.14237, 0.31345)
+sketch_1 = sketch_1.lineTo(0.96435, 0.34809)
+sketch_1 = sketch_1.close()
+result = sketch_1.revolve(angleDegrees=360.0, axisStart=(0.428, 0.322, -0.005), axisEnd=(1.428, 0.338, -0.005))
+cq.exporters.export(result, '/data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_xpart45_routea_v1/cadfit_raw/PART_008/refine_over_1/sketch_5_revolve_3.stl')
+print('Successfully revolved and exported to /data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_xpart45_routea_v1/cadfit_raw/PART_008/refine_over_1/sketch_5_revolve_3.stl')

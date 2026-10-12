@@ -1,0 +1,54 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.0, -0.04976, 0.0), normal=(0.0, 1.0, 0.0), xDir=(1.0, 0.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.57267, 0.02692)
+loop_1 = loop_1.lineTo(0.50369, 0.02228)
+loop_1 = loop_1.threePointArc((0.04251, 0.02309), (-0.39901, 0.0216))
+loop_1 = loop_1.lineTo(-0.44205, 0.02333)
+loop_1 = loop_1.threePointArc((-0.53246, 0.02319), (-0.618, 0.02088))
+loop_1 = loop_1.threePointArc((-0.80911, 0.02282), (-0.99133, 0.02163))
+loop_1 = loop_1.lineTo(-0.99855, 0.00968)
+loop_1 = loop_1.threePointArc((-0.99948, -0.00781), (-0.99857, -0.02276))
+loop_1 = loop_1.threePointArc((-0.98097, -0.02665), (-0.965, -0.02636))
+loop_1 = loop_1.lineTo(0.99642, -0.02342)
+loop_1 = loop_1.threePointArc((0.99862, -0.01092), (0.99611, 3e-05))
+loop_1 = loop_1.threePointArc((0.99552, 0.01067), (0.99142, 0.0185))
+loop_1 = loop_1.threePointArc((0.9789, 0.02172), (0.96775, 0.02151))
+loop_1 = loop_1.threePointArc((0.90531, 0.02191), (0.84169, 0.02375))
+loop_1 = loop_1.threePointArc((0.80965, 0.02596), (0.78113, 0.02073))
+loop_1 = loop_1.lineTo(0.6246, 0.02289)
+loop_1 = loop_1.threePointArc((0.59912, 0.02462), (0.57396, 0.02695))
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.1)
+plane_2 = cq.Plane(origin=(0.0, 0.0, -0.02), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_2 = cq.Workplane(plane_2)
+loop_1 = sketch_2.moveTo(-0.06039, -0.98052)
+loop_1 = loop_1.lineTo(-0.0595, -0.99355)
+loop_1 = loop_1.threePointArc((-0.04554, -0.99942), (-0.03492, -0.99846))
+loop_1 = loop_1.lineTo(0.05108, -0.99595)
+loop_1 = loop_1.threePointArc((0.06017, -0.97065), (0.05961, -0.95074))
+loop_1 = loop_1.lineTo(0.05646, 0.99203)
+loop_1 = loop_1.threePointArc((-0.00539, 0.9996), (-0.05666, 0.99896))
+loop_1 = loop_1.threePointArc((-0.06043, 0.98279), (-0.05971, 0.96736))
+loop_1 = loop_1.lineTo(-0.06038, -0.97914)
+loop_1 = loop_1.close()
+sketch_2=sketch_2.add(loop_1)
+solid_2 = sketch_2.extrude(0.04)
+
+result = solid_1
+result = result.add(solid_2)
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/kitch_island_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_041/PART_041.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/kitch_island_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_041/PART_041_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

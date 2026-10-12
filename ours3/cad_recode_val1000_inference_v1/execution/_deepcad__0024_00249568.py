@@ -1,0 +1,7 @@
+import cadquery as cq
+import cadquery as cq
+w0=cq.Workplane('XY',origin=(0,0,-17))
+w1=cq.Workplane('XY',origin=(0,0,-5))
+r=w0.sketch().segment((-90,-24),(-54,-24)).segment((-54,-81)).arc((-35,-82),(-16,-80)).arc((43,-89),(74,-37)).segment((60,-37)).segment((60,-31)).segment((74,-31)).arc((73,-27),(72,-24)).segment((75,-24)).segment((75,-18)).segment((72,-18)).arc((70,-13),(68,-8)).arc((84,23),(81,56)).segment((65,18)).segment((-28,61)).segment((-28,81)).segment((-73,81)).arc((-65,27),(-26,-18)).segment((-90,-18)).close().assemble().push([(13,-81)]).circle(12,mode='s').reset().face(w0.sketch().segment((-90,43),(-28,43)).segment((-28,61)).arc((20,84),(65,56)).segment((81,56)).arc((1,99),(-90,43)).assemble()).finalize().extrude(-18).union(w0.sketch().segment((-86,-10),(-84,-12)).arc((-61,-51),(-19,-63)).segment((-1,-88)).segment((17,-75)).arc((54,-67),(80,-38)).segment((78,-36)).arc((79,-31),(79,-26)).segment((86,-6)).segment((79,-3)).arc((79,36),(56,66)).segment((56,64)).segment((14,84)).segment((14,85)).segment((13,84)).arc((-54,66),(-84,3)).segment((-86,2)).segment((-85,0)).arc((-86,-5),(-86,-10)).assemble().push([(0,-10)]).circle(35,mode='s').finalize().extrude(52)).union(w1.sketch().arc((-17,-19),(26,1),(18,48)).arc((15,21),(-7,3)).arc((-10,-10),(-17,-19)).assemble().finalize().extrude(-12))
+compound=r.val()
+cq.exporters.export(compound, '/data/home/cuiyuehan/project/mesh2cad/ours3/cad_recode_val1000_inference_v1/step/deepcad__0024_00249568.step')

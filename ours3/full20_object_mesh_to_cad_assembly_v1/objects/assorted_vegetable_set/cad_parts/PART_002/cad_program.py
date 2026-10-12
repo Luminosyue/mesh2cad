@@ -1,0 +1,1 @@
+/data/home/cuiyuehan/project/mesh2cad/p3_xpart_open_cases/assorted_vegetable_set/xpart_parts_cadquery_features/PART_002/PART_002.py

@@ -1,0 +1,30 @@
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.00562, 0.28, -0.00534), normal=(-0.0, -1.0, -0.0), xDir=(-1.0, 0.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.00562, 0.99466)
+loop_1 = loop_1.lineTo(0.37706, 0.91854)
+loop_1 = loop_1.lineTo(0.70148, 0.70177)
+loop_1 = loop_1.lineTo(0.91826, 0.37735)
+loop_1 = loop_1.lineTo(0.99438, -0.00534)
+loop_1 = loop_1.lineTo(0.91826, -0.38802)
+loop_1 = loop_1.lineTo(0.70148, -0.71244)
+loop_1 = loop_1.lineTo(0.37706, -0.92922)
+loop_1 = loop_1.lineTo(-0.00562, -1.00534)
+loop_1 = loop_1.lineTo(-0.38831, -0.92922)
+loop_1 = loop_1.lineTo(-0.71273, -0.71244)
+loop_1 = loop_1.lineTo(-0.9295, -0.38802)
+loop_1 = loop_1.lineTo(-1.00562, -0.00534)
+loop_1 = loop_1.lineTo(-0.9295, 0.37735)
+loop_1 = loop_1.lineTo(-0.71273, 0.70177)
+loop_1 = loop_1.lineTo(-0.38831, 0.91854)
+loop_1 = loop_1.lineTo(-0.03544, 0.98873)
+loop_1 = loop_1.lineTo(-0.00562, 0.99466)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.56)
+
+result = solid_1
+cq.exporters.export(result, '/data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_val1000_baseline_v1/native_outputs/recovered_mesh_runs_v1/0089_00894171/sketch_4_interval_0.stl')
+print('Successfully exported 1 solid to /data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_val1000_baseline_v1/native_outputs/recovered_mesh_runs_v1/0089_00894171/sketch_4_interval_0.stl')

@@ -1,0 +1,1 @@
+/data/home/cuiyuehan/project/mesh2cad/p3_xpart_open_cases/birdhouse/xpart_parts_cadquery_features/PART_017/PART_017.py

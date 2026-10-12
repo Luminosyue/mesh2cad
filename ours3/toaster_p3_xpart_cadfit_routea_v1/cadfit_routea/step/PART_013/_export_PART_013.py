@@ -1,0 +1,66 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.03533, -0.09539, 0.02748), normal=(0.00415, 0.99999, -0.00057), xDir=(0.99999, -0.00415, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.00281, 0.80361)
+loop_1 = loop_1.threePointArc((0.00752, 0.79608), (0.01034, 0.79311))
+loop_1 = loop_1.lineTo(0.01062, 0.76804)
+loop_1 = loop_1.lineTo(-0.05373, 0.77858)
+loop_1 = loop_1.lineTo(-0.04029, 0.79604)
+loop_1 = loop_1.lineTo(-0.00281, 0.80361)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.07)
+plane_2 = cq.Plane(origin=(0.00637, -0.10172, 0.69338), normal=(-0.02708, 0.99963, 0.00238), xDir=(0.99963, 0.02708, -0.0))
+sketch_2 = cq.Workplane(plane_2)
+loop_1 = sketch_2.moveTo(-0.00044, 0.0009)
+loop_1 = loop_1.circle(0.02943)
+sketch_2=sketch_2.add(loop_1)
+solid_2 = sketch_2.extrude(0.21)
+plane_3 = cq.Plane(origin=(-0.03538, -0.10539, 0.02749), normal=(0.00415, 0.99999, -0.00057), xDir=(0.99999, -0.00415, 0.0))
+sketch_3 = cq.Workplane(plane_3)
+loop_1 = sketch_3.moveTo(0.10323, -0.86886)
+loop_1 = loop_1.lineTo(0.12341, -0.95442)
+loop_1 = loop_1.lineTo(0.09058, -0.96153)
+loop_1 = loop_1.lineTo(0.05518, -0.86646)
+loop_1 = loop_1.lineTo(0.10323, -0.86886)
+loop_1 = loop_1.close()
+sketch_3=sketch_3.add(loop_1)
+solid_3 = sketch_3.extrude(0.07)
+plane_4 = cq.Plane(origin=(-0.02471, -0.00255, 0.7114), normal=(0.98149, 0.01727, -0.19076), xDir=(0.01759, -0.99985, 0.0))
+sketch_4 = cq.Workplane(plane_4)
+loop_1 = sketch_4.moveTo(0.05427, -0.17645)
+loop_1 = loop_1.lineTo(0.08498, -0.19198)
+loop_1 = loop_1.lineTo(0.11064, -0.23765)
+loop_1 = loop_1.lineTo(0.03444, -0.23191)
+loop_1 = loop_1.lineTo(0.02303, -0.21375)
+loop_1 = loop_1.lineTo(0.02244, -0.19612)
+loop_1 = loop_1.lineTo(0.05427, -0.17645)
+loop_1 = loop_1.close()
+sketch_4=sketch_4.add(loop_1)
+solid_4 = sketch_4.extrude(0.06)
+plane_5 = cq.Plane(origin=(0.0, 0.0, -0.99), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_5 = cq.Workplane(plane_5)
+loop_1 = sketch_5.moveTo(-0.0474, 0.0383)
+loop_1 = loop_1.circle(0.02261)
+sketch_5=sketch_5.add(loop_1)
+solid_5 = sketch_5.extrude(1.9)
+
+result = solid_1
+result = result.add(solid_2)
+result = result.add(solid_3)
+result = result.add(solid_4)
+result = result.add(solid_5)
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/toaster_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_013/PART_013.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/toaster_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_013/PART_013_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

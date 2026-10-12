@@ -1,0 +1,1 @@
+Original curve source: scripts/curve_token_v1/extract_brep_curves.py::extract_curves_from_step; C2 source: ours3/curve_encoder_scale_curvature_v1/runs/C2_frozen_v1/best.pt; CurveProjector: original P1 build_curve_projector(256, hidden_size, curve_projector_kind).

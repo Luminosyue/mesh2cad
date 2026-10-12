@@ -1,0 +1,1 @@
+Place exact non-empty tokenizer files at QWEN_TOKENIZER_ROOT with names merges.txt, tokenizer.json, tokenizer_config.json, vocab.json. Place the complete official filapro/cad-recode-v1.5 snapshot at CAD_RECODE_ROOT. Then rerun local-only file inventory, SHA256 and config/tokenizer/model load. Do not rename unrelated weights or use any network fallback.

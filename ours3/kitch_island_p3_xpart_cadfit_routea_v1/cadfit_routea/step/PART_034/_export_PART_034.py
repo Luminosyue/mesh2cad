@@ -1,0 +1,49 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.01213, 0.09138, -0.11023), normal=(0.00935, -0.99995, -0.0022), xDir=(-0.99996, -0.00935, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.01011, 0.88926)
+loop_1 = loop_1.lineTo(0.00932, 0.88763)
+loop_1 = loop_1.lineTo(0.01493, 0.87749)
+loop_1 = loop_1.threePointArc((0.01585, 0.40995), (0.01516, -0.07059))
+loop_1 = loop_1.lineTo(0.02878, -0.09052)
+loop_1 = loop_1.lineTo(0.04836, -0.09416)
+loop_1 = loop_1.lineTo(0.05379, -0.11359)
+loop_1 = loop_1.lineTo(0.04821, -0.12562)
+loop_1 = loop_1.lineTo(0.03182, -0.13302)
+loop_1 = loop_1.lineTo(0.01994, -0.1447)
+loop_1 = loop_1.lineTo(0.01546, -0.15641)
+loop_1 = loop_1.threePointArc((0.0157, -0.19388), (0.01797, -0.22233))
+loop_1 = loop_1.threePointArc((0.0186, -0.41103), (0.01694, -0.59941))
+loop_1 = loop_1.lineTo(0.01587, -1.0075)
+loop_1 = loop_1.lineTo(0.01562, -1.08714)
+loop_1 = loop_1.lineTo(0.01353, -1.10515)
+loop_1 = loop_1.lineTo(-0.03032, -1.1077)
+loop_1 = loop_1.lineTo(-0.0417, -1.08524)
+loop_1 = loop_1.threePointArc((-0.03972, -0.89436), (-0.04039, -0.71925))
+loop_1 = loop_1.threePointArc((-0.03994, -0.46814), (-0.04143, -0.23019))
+loop_1 = loop_1.lineTo(-0.03823, -0.21076)
+loop_1 = loop_1.lineTo(-0.01864, -0.19132)
+loop_1 = loop_1.threePointArc((-0.01754, -0.14933), (-0.01453, -0.11361))
+loop_1 = loop_1.lineTo(-0.01708, -0.03586)
+loop_1 = loop_1.lineTo(-0.01752, 0.87749)
+loop_1 = loop_1.lineTo(-0.01011, 0.88926)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.15)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/kitch_island_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_034/PART_034.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/kitch_island_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_034/PART_034_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

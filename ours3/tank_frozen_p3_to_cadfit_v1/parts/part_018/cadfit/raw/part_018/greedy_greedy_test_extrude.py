@@ -1,0 +1,35 @@
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.2935, 0.63147, 0.00137), normal=(-0.364, 0.9314, -0.00081), xDir=(0.9314, 0.364, -0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.19514, -0.25033)
+loop_1 = loop_1.lineTo(0.15694, -0.28346)
+loop_1 = loop_1.lineTo(0.19629, -0.32921)
+loop_1 = loop_1.lineTo(0.20683, -0.33129)
+loop_1 = loop_1.lineTo(0.28809, -0.29897)
+loop_1 = loop_1.lineTo(0.29976, -0.28346)
+loop_1 = loop_1.lineTo(0.28808, -0.27234)
+loop_1 = loop_1.lineTo(0.25284, -0.26952)
+loop_1 = loop_1.lineTo(0.20232, -0.24724)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.19)
+
+plane_2 = cq.Plane(origin=(-0.45, 0.0, 0.0), normal=(1.0, 0.0, 0.0), xDir=(0.0, -1.0, 0.0))
+sketch_2 = cq.Workplane(plane_2)
+loop_1 = sketch_2.moveTo(-0.78948, -0.27375)
+loop_1 = loop_1.lineTo(-0.80642, -0.28373)
+loop_1 = loop_1.lineTo(-0.79056, -0.30059)
+loop_1 = loop_1.lineTo(-0.7155, -0.29277)
+loop_1 = loop_1.lineTo(-0.70829, -0.28023)
+loop_1 = loop_1.threePointArc((-0.71376, -0.27999), (-0.71944, -0.27963))
+loop_1 = loop_1.lineTo(-0.78941, -0.27375)
+loop_1 = loop_1.close()
+sketch_2=sketch_2.add(loop_1)
+solid_2 = sketch_2.extrude(1.01)
+
+result = solid_1
+result = result.add(solid_2)
+cq.exporters.export(result, '/data/home/cuiyuehan/project/mesh2cad/ours3/tank_frozen_p3_to_cadfit_v1/parts/part_018/cadfit/raw/part_018/greedy_greedy_test_extrude.stl')
+print(f'Successfully exported 2 solids to /data/home/cuiyuehan/project/mesh2cad/ours3/tank_frozen_p3_to_cadfit_v1/parts/part_018/cadfit/raw/part_018/greedy_greedy_test_extrude.stl')

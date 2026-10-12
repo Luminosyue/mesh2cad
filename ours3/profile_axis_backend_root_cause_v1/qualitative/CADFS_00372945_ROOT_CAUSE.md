@@ -1,0 +1,9 @@
+# CADFS_00372945
+
+Source has 13 line entities and 0 circle entities. Revolve axis references: ['F0.imprint', 'F0.wireOp', 'F0.imprint', 'F0.wireOp'].
+
+- Source says: query-selected sketch entities and revolve dependencies.
+- Current resolver knows: stable profile/axis IDs only.
+- Wire failure: canonical outer/inner/disjoint loop membership is unavailable.
+- Axis failure: source line geometry exists, but the sketch-to-global frame is not fully recovered.
+- Frame transformation missing: partial; base plane is known.

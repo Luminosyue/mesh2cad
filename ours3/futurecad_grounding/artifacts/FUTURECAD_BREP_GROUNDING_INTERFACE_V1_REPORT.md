@@ -1,0 +1,75 @@
+# FUTURECAD_BREP_GROUNDING_INTERFACE_V1
+
+```text
+CURRENT_GATE=FUTURECAD_BREP_GROUNDING_INTERFACE_V1_PASS
+PASS=True
+FUTURECAD_STYLE_GROUNDING_INTERFACE=True
+FULL_FUTURECAD_REPRODUCTION=False
+FUTURECAD_MODEL_USED=False
+GROUNDING_BACKEND=DETERMINISTIC_V1
+BRep_PRIMITIVE_INVENTORY_IMPLEMENTED=True
+FACE_DESCRIPTOR_IMPLEMENTED=True
+EDGE_DESCRIPTOR_IMPLEMENTED=True
+PRIMITIVE_GROUNDING_QUERY_SCHEMA_IMPLEMENTED=True
+DETERMINISTIC_GROUNDER_IMPLEMENTED=True
+TRANSIENT_BREP_REINVENTORY_IMPLEMENTED=True
+FEATURE_EXECUTION_LOOP_IMPLEMENTED=True
+FUTURECAD_TO_V11_ADAPTER_IMPLEMENTED=True
+SYNTHETIC_CASE_COUNT=5
+FACE_GROUNDING_QUERY_COUNT=2
+EDGE_GROUNDING_QUERY_COUNT=3
+FACE_GROUNDING_TOP1_ACCURACY=1.0
+EDGE_GROUNDING_TOP1_ACCURACY=1.0
+EDGE_GROUNDING_TOPK_ACCURACY=1.0
+EXPECTED_COUNT_ACCURACY=1.0
+FILLET_GROUNDING_EXECUTED_COUNT=2
+CHAMFER_GROUNDING_EXECUTED_COUNT=2
+SHELL_GROUNDING_EXECUTED_COUNT=0
+TRANSIENT_BREP_SEQUENCE_COUNT=1
+STALE_PRIMITIVE_ID_REJECTED_COUNT=1
+AMBIGUOUS_GROUNDING_REJECTED_COUNT=1
+EXECUTED_FEATURE_WITHOUT_GROUNDING_COUNT=0
+EXECUTED_FEATURE_WITH_AMBIGUOUS_GROUNDING_COUNT=0
+EXECUTED_PARAMETER_WITHOUT_REF_COUNT=0
+STALE_RUNTIME_PRIMITIVE_USED_COUNT=0
+INVALID_FEATURE_BREP_ACCEPTED_COUNT=0
+DIRECT_TEXT_TO_OCC_BYPASS_COUNT=0
+GEOMETRY_EXPLOSION_COUNT=0
+CASE09_GROUNDING_DIAGNOSTIC_RUN=True
+CASE09_GROUNDING_QUERY_COUNT=1
+CASE09_GROUNDING_VALID_COUNT=1
+V6_BACKEND_REGRESSION_PASS=True
+V10_REGRESSION_PASS=True
+V11_REGRESSION_PASS=True
+V12_REGRESSION_PASS=True
+VERTICAL_TAIL_HYBRID_REGRESSION_PASS=True
+XCAF_REGRESSION_PASS=True
+REAL_MAC_CALLS=0
+PIPELINE_DOC=/data/home/cuiyuehan/project/mesh2cad/ours3/futurecad_grounding/artifacts/futurecad_integration_pipeline.md
+GROUNDING_ACCURACY_CSV=/data/home/cuiyuehan/project/mesh2cad/ours3/futurecad_grounding/artifacts/grounding_accuracy.csv
+FEATURE_EXECUTION_CSV=/data/home/cuiyuehan/project/mesh2cad/ours3/futurecad_grounding/artifacts/feature_execution_results.csv
+CASE09_DEBUG_RENDER=/data/home/cuiyuehan/project/mesh2cad/ours3/futurecad_grounding/artifacts/case09_futurecad_grounding_debug.png
+REPORT=/data/home/cuiyuehan/project/mesh2cad/ours3/futurecad_grounding/artifacts/FUTURECAD_BREP_GROUNDING_INTERFACE_V1_REPORT.md
+INTERNAL_CHECKS_PASSED=12
+INTERNAL_CHECKS_FAILED=0
+TESTS_PASSED=9
+TESTS_FAILED=0
+TESTS_SKIPPED=0
+PYTEST_RETURN_CODE=0
+BLOCKERS=[]
+```
+
+## Answers
+1. Transient BRep Face/Edge inventory: YES.
+2. Re-inventory after topology modification: YES.
+3. Runtime IDs are state-local and stale IDs are rejected: YES.
+4. Textual/structured queries ground current primitives: YES.
+5. Ambiguous queries are rejected: YES.
+6. Fillet/Chamfer require grounding: YES.
+7. Numeric parameters remain authoritative refs: YES.
+8. text -> raw edge id -> OCC bypass exists: NO.
+9. V6 remains Mesh-to-high-fidelity-base backend: YES.
+10. FutureCAD-style module handles feature-level BRep interaction: YES.
+11. Official FutureCAD model used: NO.
+12. Backend interface can be replaced with FutureCAD BRepGround: YES.
+13. Next step: connect a real BRepGround backend if available, or train a project-specific grounding model; do not rewrite the main pipeline.

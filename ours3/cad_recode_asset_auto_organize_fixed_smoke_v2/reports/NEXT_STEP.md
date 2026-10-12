@@ -1,0 +1,1 @@
+Place/confirm complete official CAD-Recode files at CAD_RECODE_ROOT. Ensure exact tokenizer files are present in qwen2_1_5b_tokenizer_clean, then rerun local-only config/tokenizer/model load. No network or fallback.

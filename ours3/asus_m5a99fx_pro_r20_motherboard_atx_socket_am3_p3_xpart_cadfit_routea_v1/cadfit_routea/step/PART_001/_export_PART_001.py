@@ -1,0 +1,46 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.97, 0.0, 0.0), normal=(1.0, 0.0, 0.0), xDir=(0.0, -1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.22745, 0.79988)
+loop_1 = loop_1.threePointArc((0.22939, 0.77403), (0.22834, 0.74704))
+loop_1 = loop_1.threePointArc((0.22409, 0.49275), (0.22196, 0.24998))
+loop_1 = loop_1.threePointArc((0.21619, -0.24903), (0.21649, -0.72679))
+loop_1 = loop_1.threePointArc((0.21522, -0.75938), (0.21279, -0.79178))
+loop_1 = loop_1.lineTo(0.21129, -0.80282)
+loop_1 = loop_1.lineTo(0.201, -0.80993)
+loop_1 = loop_1.threePointArc((0.14226, -0.81193), (0.08105, -0.81029))
+loop_1 = loop_1.lineTo(-0.18263, -0.80501)
+loop_1 = loop_1.threePointArc((-0.19938, -0.80362), (-0.21527, -0.80153))
+loop_1 = loop_1.threePointArc((-0.22628, -0.79172), (-0.22812, -0.78461))
+loop_1 = loop_1.threePointArc((-0.23018, -0.76067), (-0.22797, -0.74268))
+loop_1 = loop_1.threePointArc((-0.22466, -0.73572), (-0.22145, -0.73025))
+loop_1 = loop_1.threePointArc((-0.21714, -0.75391), (-0.21711, -0.76996))
+loop_1 = loop_1.lineTo(-0.21712, -0.78142)
+loop_1 = loop_1.threePointArc((-0.18273, -0.79488), (-0.15373, -0.79599))
+loop_1 = loop_1.lineTo(0.17807, -0.80115)
+loop_1 = loop_1.lineTo(0.1912, -0.79833)
+loop_1 = loop_1.threePointArc((0.19215, -0.50612), (0.19303, -0.20511))
+loop_1 = loop_1.threePointArc((0.19812, 0.01212), (0.19986, 0.21939))
+loop_1 = loop_1.threePointArc((0.20364, 0.49348), (0.205, 0.75529))
+loop_1 = loop_1.lineTo(0.2076, 0.79968)
+loop_1 = loop_1.lineTo(0.22214, 0.8041)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.96)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/asus_m5a99fx_pro_r20_motherboard_atx_socket_am3_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_001/PART_001.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/asus_m5a99fx_pro_r20_motherboard_atx_socket_am3_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_001/PART_001_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

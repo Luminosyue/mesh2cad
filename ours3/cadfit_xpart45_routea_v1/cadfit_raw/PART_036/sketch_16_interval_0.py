@@ -1,0 +1,31 @@
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.21355, -0.05029, -0.25828), normal=(0.00882, -0.29957, 0.95403), xDir=(-0.0, 0.95407, 0.29958))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.15184, -0.25622)
+loop_1 = loop_1.lineTo(0.15247, -0.26637)
+loop_1 = loop_1.lineTo(0.1584, -0.24895)
+loop_1 = loop_1.lineTo(0.15837, -0.23153)
+loop_1 = loop_1.threePointArc((0.15838, -0.21979), (0.15847, -0.21119))
+loop_1 = loop_1.lineTo(0.15942, -0.19668)
+loop_1 = loop_1.threePointArc((0.15884, -0.18373), (0.15861, -0.17629))
+loop_1 = loop_1.lineTo(0.1589, -0.16184)
+loop_1 = loop_1.lineTo(0.15832, -0.14441)
+loop_1 = loop_1.threePointArc((0.15766, -0.12616), (0.15741, -0.10956))
+loop_1 = loop_1.lineTo(0.15677, -0.09116)
+loop_1 = loop_1.threePointArc((0.15622, -0.07797), (0.15581, -0.06637))
+loop_1 = loop_1.lineTo(0.15182, -0.0799)
+loop_1 = loop_1.lineTo(0.1478, -0.09214)
+loop_1 = loop_1.lineTo(0.14787, -0.11888)
+loop_1 = loop_1.threePointArc((0.14714, -0.1274), (0.14662, -0.13559))
+loop_1 = loop_1.lineTo(0.14648, -0.16411)
+loop_1 = loop_1.threePointArc((0.14684, -0.17253), (0.14704, -0.1813))
+loop_1 = loop_1.lineTo(0.15184, -0.25622)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.09)
+
+result = solid_1
+cq.exporters.export(result, '/data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_xpart45_routea_v1/cadfit_raw/PART_036/sketch_16_interval_0.stl')
+print('Successfully exported 1 solid to /data/home/cuiyuehan/project/mesh2cad/ours3/cadfit_xpart45_routea_v1/cadfit_raw/PART_036/sketch_16_interval_0.stl')

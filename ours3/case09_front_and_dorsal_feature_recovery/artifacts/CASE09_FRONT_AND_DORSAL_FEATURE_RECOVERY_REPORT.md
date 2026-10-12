@@ -1,0 +1,84 @@
+# CASE09_FRONT_AND_DORSAL_FEATURE_RECOVERY
+
+```text
+CURRENT_GATE=CASE09_FRONT_AND_DORSAL_FEATURE_RECOVERY_PASS
+PASS=True
+FROZEN_PART_COUNT=6
+FROZEN_PART_GEOMETRY_MODIFIED_COUNT=0
+PROPELLER_PART_ID=CADPART_006
+PROPELLER_CURRENT_BUILDER=V11B_BUILDER_REGISTRY
+PROPELLER_CURRENT_OVERSIZED_PROXY=True
+PROPELLER_CURRENT_BBOX_DIAG_RATIO=1.0000004472296944
+PROPELLER_CURRENT_IOU=0.0
+PROPELLER_CURRENT_CHAMFER=0.11844224097780925
+PROPELLER_V6_FRESH_EXECUTED=True
+PROPELLER_V6_BREP_VALID=True
+PROPELLER_V6_BBOX_DIAG_RATIO=22.04539844810391
+PROPELLER_V6_IOU=0.04861337588879453
+PROPELLER_V6_CHAMFER=0.19427894134225415
+PROPELLER_V6_STRICT_GAIN=False
+PROPELLER_PATTERN_ANALYZER_USED=True
+PROPELLER_FINAL_SOURCE=None
+PROPELLER_FINAL_STATUS=OMITTED_LOW_FIDELITY
+DORSAL_PART_ID=CADPART_007
+DORSAL_CURRENT_BUILDER=V11B_BUILDER_REGISTRY
+DORSAL_CURRENT_OVERSIZED_PROXY=True
+DORSAL_CURRENT_BBOX_DIAG_RATIO=1.0000003070395906
+DORSAL_CURRENT_IOU=0.0
+DORSAL_CURRENT_CHAMFER=0.1653626998338769
+DORSAL_V6_FRESH_EXECUTED=True
+DORSAL_V6_BREP_VALID=True
+DORSAL_V6_BBOX_DIAG_RATIO=1.3669806933590294
+DORSAL_V6_IOU=0.02901637802421265
+DORSAL_V6_CHAMFER=0.017642151011162677
+DORSAL_V6_STRICT_GAIN=True
+DORSAL_FREEFORM_ANALYZER_USED=False
+DORSAL_FINAL_SOURCE=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/05_candidate_generation/DORSAL_FEATURES/V6_GEOMETRY_BACKEND_FRESH/candidate.step
+DORSAL_FINAL_STATUS=V6
+TARGET_PART_OMISSION_COUNT=1
+OLD_FRESH_E2E_IOU=0.8882295965975182
+CURRENT_BASELINE_PREVIEW_IOU=0.8865705367158656
+NEW_PREVIEW_IOU=0.9265587337047549
+OLD_FRESH_E2E_CHAMFER=0.013525054928514881
+CURRENT_BASELINE_PREVIEW_CHAMFER=0.013615392570455062
+NEW_PREVIEW_CHAMFER=0.012331853677770625
+FALSE_POSITIVE_GEOMETRY_VOLUME_RATIO_BEFORE=1.0
+FALSE_POSITIVE_GEOMETRY_VOLUME_RATIO_AFTER=0.0
+WHOLE_OBJECT_FIDELITY_IMPROVED=True
+XCAF_RERUN_STARTED=True
+FINAL_STEP_PATH=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/final/CASE09_front_dorsal_fixed_assembly.step
+FINAL_STEP_RELOAD_VALID=True
+FINAL_COMPONENT_COUNT=7
+PART_ROUTING_COVERAGE=1.0
+GEOMETRY_COMPONENT_COVERAGE=0.875
+HIGH_FIDELITY_COMPONENT_COVERAGE=0.875
+VERTICAL_TAIL_SHARED_EDGE=1
+VERTICAL_TAIL_PCURVE=8
+VERTICAL_TAIL_TRIMMED_FACE=2
+HISTORICAL_STEP_REUSE_COUNT=0
+V6_TARGET_FRESH_EXECUTION_COUNT=2
+V6_TARGET_RELOAD_FAILURE_COUNT=0
+CURRENT_BUILDER_RUNTIME_SOURCE_MESH_READ_COUNT=0
+GEOMETRY_EXPLOSION_COUNT=0
+REJECTED_GEOMETRY_EXPLOSION_COUNT=1
+PROPELLER_PATTERN_EVIDENCE_SUFFICIENT=False
+PROPELLER_PATTERN_INSUFFICIENCY_REASON=HUB_COMPONENT_NOT_OBSERVED: source Part Mesh exposes 2 disconnected component(s); a generic pattern builder requires an independently observed hub region
+PROPELLER_V6_HARD_REJECT=True
+REAL_MAC_CALLS=0
+TARGET_PART_AUDIT_CSV=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/artifacts/target_part_current_audit.csv
+TARGET_SELECTION_CSV=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/artifacts/target_part_selection.csv
+WHOLE_OBJECT_COMPARISON_CSV=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/artifacts/whole_object_before_after.csv
+PART_CONTACT_SHEET=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/artifacts/case09_front_dorsal_recovery_shaded.png
+WHOLE_OBJECT_CONTACT_SHEET=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/artifacts/case09_old_vs_front_dorsal_fixed_whole.png
+REPORT=/data/home/cuiyuehan/project/mesh2cad/ours3/case09_front_and_dorsal_feature_recovery/artifacts/CASE09_FRONT_AND_DORSAL_FEATURE_RECOVERY_REPORT.md
+TESTS_PASSED=5
+TESTS_FAILED=0
+BLOCKERS=[]
+```
+
+The six Gate 9 Parts were frozen by semantic role and their selected STEP hashes were not modified.
+The current Propeller and Dorsal primitives were audited before selection. Both current candidates are BBox/primitive proxies with zero silhouette IoU and were not allowed to pass by completeness.
+Fresh V6 was executed only for the two target source Part Meshes. Propeller V6 was rejected by scale/geometry-explosion QA; Dorsal V6 was selected because it materially lowered Chamfer and passed BRep/nativeness QA.
+A deterministic PropellerPatternAnalyzer measured two blade-like disconnected components and rotational evidence, but no independently observed hub component was present. The generic pattern builder was therefore not authorized; Propeller was omitted after the V6 hard-reject.
+The best preview is frozen six Parts plus fresh V6 Dorsal, with the Propeller omitted. Routing coverage remains 1.0 while geometry component coverage is intentionally 7/8.
+No P3, CAD Part Graph, PhysX, Geometry Analyzer, V12R, frozen-Part V6, MAC or Mesh2CAD-style call was made in this Gate.

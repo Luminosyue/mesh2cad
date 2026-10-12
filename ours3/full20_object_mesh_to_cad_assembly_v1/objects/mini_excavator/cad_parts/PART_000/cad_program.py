@@ -1,0 +1,1 @@
+/data/home/cuiyuehan/project/mesh2cad/p3_xpart_open_cases/mini_excavator/xpart_parts_cadquery_features/PART_000/PART_000.py

@@ -1,0 +1,54 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.93822, 0.0, 0.0), normal=(1.0, 0.0, 0.0), xDir=(0.0, -1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.07977, 0.93982)
+loop_1 = loop_1.threePointArc((0.13497, 0.93999), (0.19246, 0.93936))
+loop_1 = loop_1.lineTo(0.20311, 0.92403)
+loop_1 = loop_1.lineTo(0.20436, 0.79233)
+loop_1 = loop_1.threePointArc((0.20339, 0.77745), (0.20493, 0.76612))
+loop_1 = loop_1.threePointArc((0.20697, 0.26625), (0.21098, -0.21049))
+loop_1 = loop_1.lineTo(0.21127, -0.79231)
+loop_1 = loop_1.lineTo(0.20242, -0.80266)
+loop_1 = loop_1.threePointArc((0.18134, -0.81975), (0.15823, -0.83603))
+loop_1 = loop_1.lineTo(0.15301, -0.84946)
+loop_1 = loop_1.threePointArc((0.15163, -0.92201), (0.14968, -0.99457))
+loop_1 = loop_1.lineTo(0.13385, -0.99036)
+loop_1 = loop_1.lineTo(0.13335, -0.9533)
+loop_1 = loop_1.threePointArc((0.13362, -0.89778), (0.13526, -0.84272))
+loop_1 = loop_1.lineTo(0.13981, -0.83048)
+loop_1 = loop_1.threePointArc((0.16807, -0.80466), (0.19369, -0.78683))
+loop_1 = loop_1.lineTo(0.18471, 0.75222)
+loop_1 = loop_1.lineTo(0.14621, 0.75032)
+loop_1 = loop_1.lineTo(0.13864, 0.77253)
+loop_1 = loop_1.threePointArc((0.13969, 0.78213), (0.13879, 0.79135))
+loop_1 = loop_1.lineTo(0.14016, 0.816)
+loop_1 = loop_1.lineTo(0.17393, 0.81229)
+loop_1 = loop_1.lineTo(0.18483, 0.81559)
+loop_1 = loop_1.lineTo(0.18583, 0.82844)
+loop_1 = loop_1.lineTo(0.18439, 0.91977)
+loop_1 = loop_1.lineTo(-0.22576, 0.91972)
+loop_1 = loop_1.threePointArc((-0.22697, -0.01656), (-0.22869, -0.99146))
+loop_1 = loop_1.lineTo(-0.24857, -0.98784)
+loop_1 = loop_1.threePointArc((-0.24703, -0.02407), (-0.2477, 0.90116))
+loop_1 = loop_1.threePointArc((-0.24521, 0.91774), (-0.24654, 0.93089))
+loop_1 = loop_1.threePointArc((-0.08501, 0.93994), (0.07704, 0.93973))
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.88)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/dvd_player_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_003/PART_003.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/dvd_player_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_003/PART_003_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

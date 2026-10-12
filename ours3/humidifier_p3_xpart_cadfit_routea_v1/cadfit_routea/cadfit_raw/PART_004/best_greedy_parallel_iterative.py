@@ -1,0 +1,30 @@
+import cadquery as cq
+import math
+
+# Plane definition from JSON
+origin = (-0.0, 0.0, 0.0)
+normal = (1.0, 0.0, 0.0)
+xdir = (0.0, -1.0, 0.0)
+plane_1 = cq.Plane(origin=origin, normal=normal, xDir=xdir)
+sketch_1 = cq.Workplane(plane_1)
+
+sketch_1 = sketch_1.moveTo(0.1198, -0.00374)
+sketch_1 = sketch_1.lineTo(0.11919, -0.83914)
+sketch_1 = sketch_1.lineTo(0.11909, -0.9455)
+sketch_1 = sketch_1.threePointArc((0.1191, -0.95608), (0.11845, -0.96539))
+sketch_1 = sketch_1.lineTo(0.11308, -0.97719)
+sketch_1 = sketch_1.threePointArc((0.107, -0.98434), (0.09982, -0.99097))
+sketch_1 = sketch_1.lineTo(0.08032, -0.9973)
+sketch_1 = sketch_1.threePointArc((0.06839, -0.99837), (0.05759, -0.99831))
+sketch_1 = sketch_1.threePointArc((-0.00457, -0.99969), (-0.06768, -0.99946))
+sketch_1 = sketch_1.threePointArc((-0.08224, -0.98582), (-0.08747, -0.97846))
+sketch_1 = sketch_1.threePointArc((-0.08321, -0.9725), (-0.07914, -0.96789))
+sketch_1 = sketch_1.threePointArc((-0.05039, -0.96523), (-0.02981, -0.96663))
+sketch_1 = sketch_1.threePointArc((0.00141, -0.96731), (0.03228, -0.96858))
+sketch_1 = sketch_1.lineTo(0.06426, -0.96463)
+sketch_1 = sketch_1.lineTo(0.07979, -0.95189)
+sketch_1 = sketch_1.threePointArc((0.08127, -0.94288), (0.08172, -0.9358))
+sketch_1 = sketch_1.lineTo(0.08296, -0.00373)
+sketch_1 = sketch_1.lineTo(0.1198, -0.00374)
+sketch_1 = sketch_1.close()
+result = sketch_1.revolve(angleDegrees=360.0, axisStart=(0.08600000000000001, -0.003, 0.001), axisEnd=(-0.914, -0.002, 0.001))

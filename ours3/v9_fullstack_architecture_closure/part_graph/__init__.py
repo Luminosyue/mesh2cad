@@ -1,0 +1,1 @@
+from .automatic_graph import build_automatic_part_graph

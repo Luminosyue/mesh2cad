@@ -1,0 +1,12 @@
+# POBJ_ca86a57984f948e1b5c46a20c09a6223_PART_009 v2 diagnosis
+
+- CAD execution: True; STEP reload: True; B-Rep valid: True.
+- Global scale / bbox mismatch: 1.134561145060743e-08.
+- Chamfer-L1: 0.13557721317007576; surface area ratio: 3.5230684361961297; volume ratio: None.
+- Top/bottom and width/depth mismatch: inspect bbox relative error and fixed-axis sections.
+- Profile/section mismatch: primitive approximation does not encode every observed contour.
+- Missing hole/recess/boss: version-specific booleans may be required.
+- Revolve/extrusion dimensions: next version prioritizes bbox dimensions and route parameters.
+- Fillet/chamfer mismatch: intentionally deferred without reliable radius evidence.
+- Missing asymmetry / over-symmetrization: False.
+- Next action: adjust CAD parameters and add one evidence-driven boolean; retain all previous valid candidates.

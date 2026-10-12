@@ -1,0 +1,122 @@
+# Watertight audit summary
+
+- NPZ_ROOT: /data/home/cuiyuehan/project/mesh2cad/mesh2cad
+- NPZ_AUDIT_N: 100
+- TOTAL_PART_N: 64
+- LOAD_SUCCESS_N: 64
+- STRICT_WATERTIGHT_N: 15
+- STRICT_WATERTIGHT_RATE: 0.234375
+- NOT_WATERTIGHT_N: 49
+- NOT_VOLUME_N: 49
+- BOUNDARY_EDGE_N: 0
+- NONMANIFOLD_N: 49
+- NPZ_LOAD_FAIL_N: 89
+- PILOT20_N: 0
+- PILOT_UNIQUE_OBJECTS: 0
+- PILOT20_RECHECK_PASS: 0/0
+- PILOT_CATEGORY_DISTRIBUTION: {}
+- CURRENT_GATE: HY3D_WATERTIGHT_AUDIT_REVIEW
+- NEXT_ALLOWED_STAGE: NONE
+
+## Per NPZ
+
+- 0 0000c32fde7f45efb8d14e8ba737d50c: parts=10, strict=1, status=OK
+- 1 0000ee4c32876db45783dcacdc183fc6fe951e6f8eb793fa844f26b93de2a8fb: parts=0, strict=0, status=LOAD_FAIL
+- 2 00017c8cde082479972482331c89971ec8c6a7a9d434d7b50325026a04138c6d: parts=0, strict=0, status=LOAD_FAIL
+- 3 0001c49868a04c7180e5abe3d6a9334c: parts=0, strict=0, status=LOAD_FAIL
+- 4 00026c416cf24a23bebc2ceef16344c6: parts=0, strict=0, status=LOAD_FAIL
+- 5 00027eda737776af810f67449f4950b37cab2a4f5314fa8bc000c596aa9a0525: parts=0, strict=0, status=LOAD_FAIL
+- 6 00029fdf397c90788939573a1847ec7bbb5243be5b616f330911d3048f49bddc: parts=0, strict=0, status=LOAD_FAIL
+- 7 0002c6eafa154e8bb08ebafb715a8d46: parts=0, strict=0, status=LOAD_FAIL
+- 8 0002e485326815f88a94345b21dc4548bbf31b4dd8971479e3ae8fbafe23ed86: parts=0, strict=0, status=LOAD_FAIL
+- 9 00034decc76a9a8aeb9fb65577e7d5e6ba8bd7ea8cb913d68f92daf1e844e152: parts=0, strict=0, status=LOAD_FAIL
+- 10 0003c1f23924ecc8e1cae2f09caae6fd9f21fc684779a15bec0a2fe7656ad6c4: parts=0, strict=0, status=LOAD_FAIL
+- 11 00042c759e43625312f8eef74d34e833b5bf26b72c62e0fbcacb446029a5601e: parts=0, strict=0, status=LOAD_FAIL
+- 12 000481a207dbf9417a7d94194f50dc39cf37911ecb5864c8a19266e59fa49218: parts=0, strict=0, status=LOAD_FAIL
+- 13 0004880c90519c1979fe360f3885d8136edddcf23a7b424fdf9c54ea1859a8e8: parts=0, strict=0, status=LOAD_FAIL
+- 14 00049a1ac6fd4735bb52d3aeb85c0207: parts=0, strict=0, status=LOAD_FAIL
+- 15 0004a693b993243293e9c467ed283766d9c9c1ae0bd8b0f1bd3549f714ffb27a: parts=0, strict=0, status=LOAD_FAIL
+- 16 0005033c6f754d00899127df5e2388f7: parts=14, strict=3, status=OK
+- 17 00057aef667b70c7aca911f5e2c1473c76232a85e5e94a83c3e75ef2b9e037ea: parts=0, strict=0, status=LOAD_FAIL
+- 18 0005bedbd755c363c88999fb79c3ec5270c3baa5c3012f18ea49f216878d1817: parts=0, strict=0, status=LOAD_FAIL
+- 19 0005df571e71437991594d0affec9c2b: parts=0, strict=0, status=LOAD_FAIL
+- 20 0005ea6ae6944ebd90a4c8de52ecfb2f: parts=0, strict=0, status=LOAD_FAIL
+- 21 0005fbd001820198c0ce3ee932806bf45fc6261828cf179de76f84257366ba6d: parts=0, strict=0, status=LOAD_FAIL
+- 22 0007008488014d03bd49cee214766efc: parts=0, strict=0, status=LOAD_FAIL
+- 23 000793116622efed94f63b68bb5efde4bc491fba68b55646edf609c89e60d710: parts=0, strict=0, status=LOAD_FAIL
+- 24 0007caff34639fcfb865b0d2ff0fe9ff95a962710a007abd31cb7ca43eab9184: parts=0, strict=0, status=LOAD_FAIL
+- 25 0007dd5b6b9ae6a15ab7536e28cf0ef2f062825226fbca5bb20e4baa587d69a8: parts=0, strict=0, status=LOAD_FAIL
+- 26 00089638cca070fbb11a4df7ed81bdb53ffb5a06e6005dd95f070fe442a1a7c8: parts=0, strict=0, status=LOAD_FAIL
+- 27 00089a40101d4c1487edf050b94f6008: parts=0, strict=0, status=LOAD_FAIL
+- 28 00091e28dfb8108f1c1c4d27f07c25cc621a266cb3bdf9e001449ad26e858f53: parts=0, strict=0, status=LOAD_FAIL
+- 29 000925afe26a46cb9a4daf76e17d244b: parts=0, strict=0, status=LOAD_FAIL
+- 30 0009d60bdecb4da49cf920ce24e95f73: parts=0, strict=0, status=LOAD_FAIL
+- 31 000a1e27b41d48c5ea1d17ba21ed6c40beeb1484280c47626964d724c7d7db4b: parts=2, strict=1, status=OK
+- 32 000ab8f319c4c63ae62197a2236da30a08a8bcb97a801a5a99f80e68576bb123: parts=4, strict=0, status=OK
+- 33 000b76f2b03e44e8ab44e1a1614be0f4: parts=0, strict=0, status=LOAD_FAIL
+- 34 000bb354cfc01dcf55a768b9eab6a48f0820e40ca012db1ce681919c06e35eac: parts=3, strict=0, status=OK
+- 35 000bbd7b079cda2e8e5b18988ef854d605c1f8798b0100935c9264b8c785706b: parts=0, strict=0, status=LOAD_FAIL
+- 36 000bf1c35ca5475c97b0555b0948b96f: parts=0, strict=0, status=LOAD_FAIL
+- 37 000c3dcd5703ef4dfba0276efa5252ecec88fbea9662055eb969a6e9202690ee: parts=3, strict=1, status=OK
+- 38 000c8272e8fe85fd395e5c058fde06df282217a0747094a3a00dceee391d8428: parts=4, strict=0, status=OK
+- 39 000d2ec5e09dbf462e46ee8d09c31933deffd835588a43067f597214a98fd78f: parts=0, strict=0, status=LOAD_FAIL
+- 40 000d4a5f50a1fb5b15e643e20b4b92716cda43ae36311f853c3e5208de740621: parts=15, strict=8, status=OK
+- 41 000d4d136db39c335bcfbba0b4763d7de5f393ef7747f9ae1508f8d06aff1b5a: parts=0, strict=0, status=LOAD_FAIL
+- 42 000d4db112fd42c4a351018e8cf1f244: parts=0, strict=0, status=LOAD_FAIL
+- 43 000d91ba56154685989873768f7d130a: parts=4, strict=1, status=OK
+- 44 000dd99a3a7be62372460384308a77ff3409968742dee1fbfd25ff3b95df4113: parts=0, strict=0, status=LOAD_FAIL
+- 45 000e246a674e4d36904c6101923ccb03: parts=0, strict=0, status=LOAD_FAIL
+- 46 000e3ff1021622a38da1c9daa73200b68e24524cb4fd9ccf6bda185d44e2f2e4: parts=0, strict=0, status=LOAD_FAIL
+- 47 000e4ba37d202319edf3a199c80d03bfa444c64c22bc48f04e7469a99afe6fc2: parts=0, strict=0, status=LOAD_FAIL
+- 48 000e4f26ff12fd3c9591a75a41811cd8bad3699b9b0ad1992e2e942dbd209dcd: parts=0, strict=0, status=LOAD_FAIL
+- 49 000e6ab684f995f987bfffa75c98d635d293db4794378a01966e60ff25f80aa1: parts=2, strict=0, status=OK
+- 50 000f2aee035249c403e6eec7d5bb0e2908ee979fbf5f9b651e07256fc8f3e1c9: parts=0, strict=0, status=LOAD_FAIL
+- 51 000f4ec7c0b71ac86c0116ce2dce8ebee3f5a98f6ac83e78162670ed5235bd4b: parts=0, strict=0, status=LOAD_FAIL
+- 52 000faf5e58054570bf844bbbc2ed8cf0: parts=0, strict=0, status=LOAD_FAIL
+- 53 000ff87e5c4e7844d1e219fce3a8cf3e70430dfb3cd74573263a5e8519ce6da7: parts=0, strict=0, status=LOAD_FAIL
+- 54 0010243e40244bb6a157417df028fd43: parts=0, strict=0, status=LOAD_FAIL
+- 55 00106d704fbc4d2fed2cc9cde732234bd0947b8bde0590c64fddbf90ad6f4a3e: parts=0, strict=0, status=LOAD_FAIL
+- 56 0011251f4ca5f9046a6e672f4c61d84e7954dfb0d5ee391f75310cb1445301c3: parts=0, strict=0, status=LOAD_FAIL
+- 57 00115d6b18484309917e38984539f847: parts=0, strict=0, status=LOAD_FAIL
+- 58 00116695e48c49de967cccd4b9b7455a: parts=0, strict=0, status=LOAD_FAIL
+- 59 0011792ec1c7daa57cd9030990a879cac8350e4816b9f868527ccae6c70867a0: parts=0, strict=0, status=LOAD_FAIL
+- 60 0011b0e07fde4491b1f3875f25fff2d7: parts=0, strict=0, status=LOAD_FAIL
+- 61 001200d8ec8d46efbd5bfd0337f7dc7f: parts=0, strict=0, status=LOAD_FAIL
+- 62 001219fba71766ff0fb8997294bc85be263c309452832cf168077cc246b866e7: parts=0, strict=0, status=LOAD_FAIL
+- 63 0012834da192136247664c89e47a31176c93d23ce9e4c0a2e9b717a8cbb4fe6a: parts=0, strict=0, status=LOAD_FAIL
+- 64 001318af3dc59f9e5f77bd0937974e92f853fe4373901dc7fa90c38e5e5229fa: parts=0, strict=0, status=LOAD_FAIL
+- 65 001354e5574ef04f5093d0cc0e9d6ccb5f0be99dd7848575f7b88c7e8076547a: parts=0, strict=0, status=LOAD_FAIL
+- 66 0013d88f17a245b0bff5ebe713bd72ab: parts=0, strict=0, status=LOAD_FAIL
+- 67 0013dba4647a8e693a2e5cb04abbb0651ef00700a801942075ac79b8547f903b: parts=0, strict=0, status=LOAD_FAIL
+- 68 00145d8428274f73b63168bef9803486: parts=0, strict=0, status=LOAD_FAIL
+- 69 0014b1af4bf74f4fb3226f9b678fed4b: parts=0, strict=0, status=LOAD_FAIL
+- 70 0014c1110abce5175cbf6490e42bb7facf39b24c78332507e291998f1a83b9ef: parts=0, strict=0, status=LOAD_FAIL
+- 71 001511f3e71816a90cd88ea121327584af5933f0236e103c9691d49b2c1897eb: parts=0, strict=0, status=LOAD_FAIL
+- 72 0015408b7f14557ee0f149c796715a6bc197751e0cffc66c68e561d43a1003f4: parts=0, strict=0, status=LOAD_FAIL
+- 73 00158ad5236d437682d981b2475d2e9c: parts=0, strict=0, status=LOAD_FAIL
+- 74 0015c579cfa440a7a2bd0a3f14395f05: parts=0, strict=0, status=LOAD_FAIL
+- 75 0015d251836a121df3a5e78e99f796873a73b3549225cd0ea49647059ecdb077: parts=0, strict=0, status=LOAD_FAIL
+- 76 0015eb3cf53b4339b2d0532cf912ab26: parts=0, strict=0, status=LOAD_FAIL
+- 77 00161a2d7d9e4365ab87ce139e84375d: parts=0, strict=0, status=LOAD_FAIL
+- 78 00165583020ed022cd50838eda73b7d6f9b4ff60d90299bb929ab032d69cb64c: parts=0, strict=0, status=LOAD_FAIL
+- 79 00169f363c2916ef49adaa0d8560215e9b0a32ed0fdeda247db88f6fd1cd2537: parts=0, strict=0, status=LOAD_FAIL
+- 80 0016c58a35a9a95752ac6991711451e79e229ce611e188fa48876b66cbcf7c22: parts=0, strict=0, status=LOAD_FAIL
+- 81 0016d5ade3ab20310bdd4fcf2b9228f0abb6e5145c3ba7f3e2c8f75805513065: parts=0, strict=0, status=LOAD_FAIL
+- 82 0016ed6d84784f0ca38f6d57e4a85fde: parts=0, strict=0, status=LOAD_FAIL
+- 83 001797e30c7df5fdfd00efedbd66bda8b37e008924cdeebe33d74caebc942303: parts=0, strict=0, status=LOAD_FAIL
+- 84 0017aa80292344fdaa771f7baad6cf32: parts=0, strict=0, status=LOAD_FAIL
+- 85 00185550e99a4db3aef51ffca682dab8: parts=0, strict=0, status=LOAD_FAIL
+- 86 0018e2878b8ff41c456d218e4d490c9d5a14a6541af8fb5cac6a8b51fe4b97a1: parts=0, strict=0, status=LOAD_FAIL
+- 87 0018ec175a5c4c55aa74040a1ae0f240: parts=0, strict=0, status=LOAD_FAIL
+- 88 00190ea6cff3ac79859939460bc353ae50e5760e58c0d2e262b45157cbf589f9: parts=0, strict=0, status=LOAD_FAIL
+- 89 0019cfe560b3457f1f8ad4cda65059731bc3bf72c892b6938df8ae52fe72119d: parts=0, strict=0, status=LOAD_FAIL
+- 90 001a5201eddf4f3b98591598584673f5: parts=0, strict=0, status=LOAD_FAIL
+- 91 001a5eb1cbf9a09c78cc0bd60efd097e324e24d567a099e64466c64d5839812c: parts=0, strict=0, status=LOAD_FAIL
+- 92 001cb53308f878c2739b6fea8fcf4565e6006b002a40c019ceaf6e382a6f994e: parts=0, strict=0, status=LOAD_FAIL
+- 93 001cc3c6300d96c5efbaf9acafaa813f106e1b55bea6915f5ed29e59f2eff782: parts=0, strict=0, status=LOAD_FAIL
+- 94 001cd92bbae24e018eba129dec96cd62: parts=0, strict=0, status=LOAD_FAIL
+- 95 001d1b57e9df4273bede948b26429429: parts=0, strict=0, status=LOAD_FAIL
+- 96 001d7f666d3af79a131a375610e4d6efffcc4779260bd21ddb22f7bb9a769bc7: parts=0, strict=0, status=LOAD_FAIL
+- 97 001d8f96a18a49f2922d371afcca315e: parts=3, strict=0, status=OK
+- 98 001db950d42d0c1e97561103fe326097283d664d4b109bb2f709de6de61cca4a: parts=0, strict=0, status=LOAD_FAIL
+- 99 001dcf572f85314db190f7b9163a7105d57e9f9d1df485e382d1bf881000dda2: parts=0, strict=0, status=LOAD_FAIL

@@ -1,0 +1,55 @@
+"""Inferred standard-feature CAD. Approximate reconstruction, not recovered design history."""
+from pathlib import Path
+import json
+"""Pure CadQuery feature builder. Input contains sketches, never a triangle mesh."""
+import cadquery as cq
+from math import sqrt
+
+def sketch_wire(points, z, smooth=False):
+    wp=cq.Workplane('XY',origin=(0,0,z))
+    if isinstance(points,dict):
+        return wp.center(*points['center']).circle(points['radius']).val()
+    if smooth:
+        return wp.spline([tuple(p) for p in points],periodic=True).wire().val()
+    return wp.polyline([tuple(p) for p in points]).close().wire().val()
+
+def build_model(p):
+    if p['operation']=='revolve':
+        pts=p['profile']; n=len(pts)
+        wp=cq.Workplane('XZ').moveTo(0,pts[0][1]).lineTo(*pts[0])
+        bounds=sorted(set(int(i*(n-1)/p['segments']) for i in range(p['segments']+1)))
+        def tangent(k):
+            a,b=pts[max(0,k-1)],pts[min(n-1,k+1)];x,y=b[0]-a[0],b[1]-a[1];d=sqrt(x*x+y*y);return (x/d,y/d)
+        for a,b in zip(bounds[:-1],bounds[1:]):
+            wp=wp.spline([tuple(q) for q in pts[a+1:b+1]],includeCurrent=True,tangents=[tangent(a),tangent(b)],scale=False)
+        shape=wp.lineTo(0,pts[-1][1]).close().revolve(360,(0,0),(0,1)).val().translate((*p['center_xy'],0))
+    else:
+        features=[]
+        for feature in p['features']:
+            if feature['type']=='extrude':
+                wires=[sketch_wire(q,feature['start']) for q in feature['loops']]
+                shape=cq.Workplane('XY').newObject(wires).toPending().extrude(feature['length'],combine=False).val()
+            else:
+                wires=[sketch_wire(q,z,feature.get('smooth',False)) for z,q in feature['sections']]
+                shape=cq.Workplane('XY').newObject(wires).toPending().loft(ruled=feature.get('ruled',True),combine=False).val()
+                for pocket in feature.get('pockets',[]):
+                    pw=[sketch_wire(q,z,True) for z,q in pocket]
+                    tool=cq.Workplane('XY').newObject(pw).toPending().loft(ruled=True,combine=False).val()
+                    shape=shape.cut(tool)
+            features.append((shape,feature.get('cut',False)))
+        shape=features[0][0]
+        for addition,cut in features[1:]:
+            shape=shape.cut(addition) if cut else shape.fuse(addition)
+        shape=shape.clean()
+    if 'basis' in p:
+        b=p['basis']
+        shape=shape.located(cq.Location(cq.Plane(origin=(0,0,0),xDir=tuple(b[0]),normal=tuple(b[2]))))
+    return shape.scale(1/p['construction_scale']).translate(tuple(p['center']))
+
+PARAMETERS=json.loads(r'''{"center_xy":[-0.45825028277977964,-0.3494590684626644],"profile":[[0.1364750221537605,7.1933984575236565],[0.5281233936953598,5.735596185674382],[0.5426288889376423,3.74109058986069],[0.5353761413164975,1.7320794988047155],[0.5281233936953598,-0.27693159225125896],[0.5281233936953598,-2.2859426833072334],[0.5281233936953598,-4.287701026742063],[0.5281233936953598,-6.296712117798037],[0.5208706460742221,-8.298470461232867],[0.5281233936953598,-10.300228804667697],[0.5281233936953598,-12.301987148102533],[0.5208706460742221,-14.3109982391585],[0.5208706460742221,-16.31275658259333],[0.5136178984530773,-18.32176767364931],[0.5136178984530773,-20.323526017084138],[0.5136178984530773,-22.332537108140112],[0.5136178984530773,-24.334295451574945],[0.5208706460742221,-26.336053795009775],[0.5281233936953598,-28.345064886065746],[0.5281233936953598,-30.34682322950058],[0.5208706460742221,-32.348581572935416],[0.5136178984530773,-34.35759266399138],[0.5063651508319325,-36.35935100742621],[0.5063651508319325,-38.36110935086105],[0.5063651508319325,-40.370120441917024],[0.5063651508319325,-42.37187878535185],[0.5063651508319325,-44.38088987640783],[0.5063651508319325,-46.38264821984266],[0.5281233936953598,-48.37715381565635],[1.1518596891134578,-49.602868163629125],[1.6813102654567302,-48.268362601339234],[1.6958157606990056,-46.27385700552555],[1.6958157606990056,-44.27209866209071],[1.7030685083201504,-42.27034031865588],[1.7103212559412952,-40.26858197522105],[1.7103212559412952,-38.25957088416508],[1.717574003562433,-36.25781254073025],[1.717574003562433,-34.25605419729541],[1.717574003562433,-32.25429585386058],[1.7248267511835707,-30.25253751042575],[1.717574003562433,-28.25077916699092],[1.717574003562433,-26.241768075934946],[1.717574003562433,-24.240009732500113],[1.717574003562433,-22.238251389065283],[1.717574003562433,-20.229240298009312],[1.717574003562433,-18.227481954574476],[1.717574003562433,-16.225723611139642],[1.7248267511835707,-14.216712520083675],[1.717574003562433,-12.214954176648838],[1.7248267511835707,-10.213195833214009],[1.717574003562433,-8.204184742158041],[1.7248267511835707,-6.202426398723205],[1.7248267511835707,-4.193415307667237],[1.7248267511835707,-2.1916569642324077],[1.7320794988047155,-0.18989862079757103],[1.7320794988047155,1.8191124702584034],[1.7320794988047155,3.820870813693233],[1.7393322464258532,5.82262915712807],[1.8191124702584034,7.824387500562899],[1.8481234607429684,9.826145843997722],[1.7610904892892805,11.77713495408458],[1.7320794988047155,13.764387802277128],[1.7320794988047155,15.766146145711957],[1.7320794988047155,17.767904489146787],[1.7320794988047155,19.77691558020277],[1.7320794988047155,21.778673923637584],[1.7320794988047155,23.780432267072428],[1.7320794988047155,25.789443358128395],[1.7320794988047155,27.791201701563224],[1.7393322464258532,29.800212792619206],[1.7393322464258532,31.801971136054036],[1.7393322464258532,33.80372947948888],[1.7393322464258532,35.81274057054483],[1.7393322464258532,37.814498913979676],[1.7393322464258532,39.816257257414506],[1.7393322464258532,41.82526834847047],[1.7393322464258532,43.8270266919053],[1.7320794988047155,45.82878503534015],[1.717574003562433,47.8377961263961],[1.3984531082322391,49.527686322121895],[0.20174975074402823,49.38988411732022]],"method":"axisymmetric_spline_revolve","segments":12,"fitting":"median of 16 meridian cross-sections; spline profile with shared endpoint tangents","operation":"revolve","basis":[[-0.0013271826479126503,-0.0013271826479126503,0.9995519890695022],[0.9995519890695022,-0.0013271826479126503,-0.0013271826479126503],[-0.0013271826479126503,0.9995519890695022,-0.0013271826479126503]],"axis_candidate":1,"center":[-0.6540744685505757,-0.27693159225125896,-0.50176676850662],"construction_scale":69.21889611351888,"expected_solid_count":1}''')
+def build():
+    return build_model(PARAMETERS)
+if __name__=="__main__":
+    result=build()
+    assert result.isValid() and len(result.Solids())==PARAMETERS["expected_solid_count"]
+    result.exportStep(str(Path(__file__).with_suffix(".step")))

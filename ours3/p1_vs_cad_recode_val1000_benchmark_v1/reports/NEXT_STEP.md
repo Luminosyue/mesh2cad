@@ -1,0 +1,1 @@
+Provide or identify an existing frozen CAD-Recode geometry evaluator output under the exact P1/A0-A3 protocol; then compute paired common-valid geometry. Do not modify predictions or evaluator definitions.

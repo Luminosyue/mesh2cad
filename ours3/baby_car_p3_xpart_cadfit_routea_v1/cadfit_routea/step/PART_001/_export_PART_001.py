@@ -1,0 +1,53 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.66, 0.0, 0.0), normal=(1.0, 0.0, 0.0), xDir=(0.0, -1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.7008, 0.41437)
+loop_1 = loop_1.threePointArc((0.50752, 0.39334), (0.32224, 0.37078))
+loop_1 = loop_1.threePointArc((0.06106, 0.34262), (-0.18777, 0.31259))
+loop_1 = loop_1.threePointArc((-0.45444, 0.28246), (-0.73072, 0.25238))
+loop_1 = loop_1.lineTo(-0.77906, 0.24221)
+loop_1 = loop_1.lineTo(-0.81953, 0.22829)
+loop_1 = loop_1.threePointArc((-0.84295, 0.21704), (-0.86292, 0.20487))
+loop_1 = loop_1.lineTo(-0.89232, 0.18233)
+loop_1 = loop_1.threePointArc((-0.9423, 0.12386), (-0.97807, 0.06119))
+loop_1 = loop_1.threePointArc((-0.98569, 0.03119), (-0.99046, 0.00353))
+loop_1 = loop_1.threePointArc((-0.9891, -0.01875), (-0.9841, -0.03797))
+loop_1 = loop_1.lineTo(-0.93767, -0.17366)
+loop_1 = loop_1.threePointArc((-0.91824, -0.19914), (-0.89205, -0.21279))
+loop_1 = loop_1.threePointArc((-0.86954, -0.222), (-0.84824, -0.22655))
+loop_1 = loop_1.threePointArc((-0.60788, -0.28544), (-0.35985, -0.34935))
+loop_1 = loop_1.threePointArc((-0.34292, -0.35983), (-0.32797, -0.37134))
+loop_1 = loop_1.threePointArc((-0.30453, -0.38467), (-0.28135, -0.39159))
+loop_1 = loop_1.lineTo(-0.25201, -0.3915)
+loop_1 = loop_1.threePointArc((-0.20059, -0.38148), (-0.14807, -0.37599))
+loop_1 = loop_1.lineTo(0.43434, -0.30837)
+loop_1 = loop_1.lineTo(0.76762, -0.26822)
+loop_1 = loop_1.threePointArc((0.81428, -0.25361), (0.85382, -0.23118))
+loop_1 = loop_1.threePointArc((0.91817, -0.18144), (0.96283, -0.11925))
+loop_1 = loop_1.threePointArc((0.98333, -0.06248), (0.9927, -0.00696))
+loop_1 = loop_1.threePointArc((0.99547, 0.01534), (0.99485, 0.03538))
+loop_1 = loop_1.threePointArc((0.99169, 0.10403), (0.98663, 0.16825))
+loop_1 = loop_1.threePointArc((0.97804, 0.21093), (0.9675, 0.24972))
+loop_1 = loop_1.threePointArc((0.93221, 0.30255), (0.88778, 0.34214))
+loop_1 = loop_1.threePointArc((0.83103, 0.38056), (0.77169, 0.40533))
+loop_1 = loop_1.threePointArc((0.73674, 0.41019), (0.70467, 0.41362))
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.39)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/baby_car_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_001/PART_001.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/baby_car_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_001/PART_001_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

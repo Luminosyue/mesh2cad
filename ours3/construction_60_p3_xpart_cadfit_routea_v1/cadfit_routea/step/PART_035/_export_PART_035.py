@@ -1,0 +1,87 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(-0.08401, 0.88735, 0.23264), normal=(0.253, -0.96683, 0.03516), xDir=(-0.96742, -0.25316, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(0.17838, 0.68219)
+loop_1 = loop_1.lineTo(-0.02121, 0.68184)
+loop_1 = loop_1.lineTo(-0.10432, 0.68195)
+loop_1 = loop_1.threePointArc((-0.11598, 0.67481), (-0.12008, 0.67051))
+loop_1 = loop_1.threePointArc((-0.12274, 0.65785), (-0.12273, 0.65038))
+loop_1 = loop_1.threePointArc((-0.12553, 0.5844), (-0.1255, 0.5248))
+loop_1 = loop_1.threePointArc((-0.12653, 0.47212), (-0.12615, 0.42584))
+loop_1 = loop_1.threePointArc((-0.12629, 0.40579), (-0.12505, 0.38947))
+loop_1 = loop_1.lineTo(-0.12553, 0.34487)
+loop_1 = loop_1.threePointArc((-0.12622, 0.28735), (-0.13077, 0.23062))
+loop_1 = loop_1.lineTo(-0.13416, 0.03418)
+loop_1 = loop_1.threePointArc((-0.13557, -0.02734), (-0.13859, -0.08863))
+loop_1 = loop_1.lineTo(-0.13908, -0.13786)
+loop_1 = loop_1.threePointArc((-0.13099, -0.15218), (-0.12568, -0.15615))
+loop_1 = loop_1.threePointArc((-0.1114, -0.15773), (-0.10059, -0.15767))
+loop_1 = loop_1.lineTo(0.16749, -0.16117)
+loop_1 = loop_1.lineTo(0.17765, -0.15707)
+loop_1 = loop_1.lineTo(0.18536, -0.1407)
+loop_1 = loop_1.threePointArc((0.18618, -0.11195), (0.18571, -0.08435))
+loop_1 = loop_1.lineTo(0.201, -0.05506)
+loop_1 = loop_1.threePointArc((0.24258, -0.05585), (0.28251, -0.05594))
+loop_1 = loop_1.lineTo(0.29723, -0.03366)
+loop_1 = loop_1.lineTo(0.30045, 0.08306)
+loop_1 = loop_1.lineTo(0.30074, 0.25306)
+loop_1 = loop_1.lineTo(0.29695, 0.26423)
+loop_1 = loop_1.lineTo(0.28587, 0.26951)
+loop_1 = loop_1.threePointArc((0.26303, 0.27013), (0.24368, 0.26984))
+loop_1 = loop_1.lineTo(0.21875, 0.27044)
+loop_1 = loop_1.lineTo(0.20701, 0.27935)
+loop_1 = loop_1.threePointArc((0.2058, 0.31832), (0.20693, 0.35891))
+loop_1 = loop_1.threePointArc((0.20884, 0.37658), (0.20845, 0.39077))
+loop_1 = loop_1.lineTo(0.20731, 0.54064)
+loop_1 = loop_1.lineTo(0.2075, 0.63076)
+loop_1 = loop_1.lineTo(0.20663, 0.64631)
+loop_1 = loop_1.lineTo(0.20497, 0.66811)
+loop_1 = loop_1.lineTo(0.19301, 0.68143)
+loop_1 = loop_1.lineTo(0.18286, 0.68175)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.11)
+result = solid_1
+
+# ===== Operation Script =====
+plane_op_1 = cq.Plane(origin=(0.01928, 0.36329, -0.09945), normal=(0.00373, 0.03732, 0.9993), xDir=(0.0, 0.9993, -0.03732))
+sketch_op_1 = cq.Workplane(plane_op_1)
+loop_1 = sketch_op_1.moveTo(-0.38737, -0.24907)
+loop_1 = loop_1.lineTo(-0.39492, -0.2206)
+loop_1 = loop_1.lineTo(-0.40201, -0.19357)
+loop_1 = loop_1.lineTo(-0.41039, -0.16641)
+loop_1 = loop_1.lineTo(-0.41499, -0.15124)
+loop_1 = loop_1.lineTo(-0.41939, -0.13553)
+loop_1 = loop_1.lineTo(-0.42457, -0.11489)
+loop_1 = loop_1.lineTo(-0.44476, -0.03289)
+loop_1 = loop_1.lineTo(-0.45247, -0.00695)
+loop_1 = loop_1.lineTo(-0.46083, 0.02547)
+loop_1 = loop_1.lineTo(-0.45442, 0.04102)
+loop_1 = loop_1.threePointArc((-0.44318, 0.04569), (-0.43248, 0.05036))
+loop_1 = loop_1.lineTo(-0.42133, 0.05456)
+loop_1 = loop_1.lineTo(-0.61003, 0.00522)
+loop_1 = loop_1.lineTo(-0.52783, -0.30913)
+loop_1 = loop_1.lineTo(-0.36998, -0.26785)
+loop_1 = loop_1.lineTo(-0.38737, -0.24907)
+loop_1 = loop_1.close()
+sketch_op_1=sketch_op_1.add(loop_1)
+solid_op_1 = sketch_op_1.extrude(0.51)
+result_op = solid_op_1
+
+# ===== Combine using cut =====
+final_result = result.cut(result_op)
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/construction_60_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_035/PART_035.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/construction_60_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_035/PART_035_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

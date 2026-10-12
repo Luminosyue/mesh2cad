@@ -1,0 +1,51 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.0, 0.0, -0.91), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.1669, -0.19055)
+loop_1 = loop_1.threePointArc((-0.1674, -0.58686), (-0.16609, -0.96732))
+loop_1 = loop_1.threePointArc((-0.16471, -0.97645), (-0.16308, -0.98353))
+loop_1 = loop_1.threePointArc((-0.1593, -0.99093), (-0.15577, -0.99626))
+loop_1 = loop_1.threePointArc((-0.13848, -0.99805), (-0.12306, -0.99747))
+loop_1 = loop_1.threePointArc((-0.10455, -0.99803), (-0.08821, -0.99622))
+loop_1 = loop_1.lineTo(-0.07964, -0.98015)
+loop_1 = loop_1.threePointArc((-0.07946, -0.93451), (-0.08074, -0.89227))
+loop_1 = loop_1.threePointArc((-0.08396, -0.88602), (-0.08651, -0.88095))
+loop_1 = loop_1.threePointArc((-0.09126, -0.88708), (-0.09533, -0.892))
+loop_1 = loop_1.lineTo(-0.09832, -0.97296)
+loop_1 = loop_1.lineTo(-0.10917, -0.97999)
+loop_1 = loop_1.lineTo(-0.13311, -0.97879)
+loop_1 = loop_1.lineTo(-0.14709, -0.96887)
+loop_1 = loop_1.threePointArc((-0.14929, -0.3864), (-0.14884, 0.22034))
+loop_1 = loop_1.lineTo(-0.14636, 0.9742)
+loop_1 = loop_1.threePointArc((-0.12593, 0.98026), (-0.10816, 0.9799))
+loop_1 = loop_1.lineTo(-0.09797, 0.97155)
+loop_1 = loop_1.threePointArc((-0.09727, 0.89316), (-0.09823, 0.81308))
+loop_1 = loop_1.threePointArc((-0.09153, 0.80744), (-0.08651, 0.80321))
+loop_1 = loop_1.threePointArc((-0.0821, 0.80906), (-0.07903, 0.8134))
+loop_1 = loop_1.threePointArc((-0.0809, 0.85691), (-0.07986, 0.9006))
+loop_1 = loop_1.lineTo(-0.08085, 0.97892)
+loop_1 = loop_1.threePointArc((-0.08352, 0.98759), (-0.08637, 0.99428))
+loop_1 = loop_1.threePointArc((-0.09883, 0.99868), (-0.10974, 0.99802))
+loop_1 = loop_1.lineTo(-0.15886, 0.99651)
+loop_1 = loop_1.threePointArc((-0.16408, 0.98111), (-0.16671, 0.9746))
+loop_1 = loop_1.lineTo(-0.16736, -0.18833)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.83)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/birdhouse_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_012/PART_012.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/birdhouse_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_012/PART_012_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

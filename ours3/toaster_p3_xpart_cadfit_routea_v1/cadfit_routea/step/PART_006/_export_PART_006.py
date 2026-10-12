@@ -1,0 +1,56 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.0, 0.0, -0.04912), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.71578, -0.02903)
+loop_1 = loop_1.threePointArc((-0.70272, -0.03453), (-0.69899, -0.0347))
+loop_1 = loop_1.lineTo(-0.68087, -0.02347)
+loop_1 = loop_1.lineTo(-0.68574, 0.00476)
+loop_1 = loop_1.lineTo(-0.70673, 0.00523)
+loop_1 = loop_1.lineTo(-0.71578, -0.02903)
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(0.07)
+plane_2 = cq.Plane(origin=(0.0, 0.0, -0.04912), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_2 = cq.Workplane(plane_2)
+loop_1 = sketch_2.moveTo(-0.95425, -0.00144)
+loop_1 = loop_1.circle(0.02166)
+sketch_2=sketch_2.add(loop_1)
+solid_2 = sketch_2.extrude(0.07)
+plane_3 = cq.Plane(origin=(0.0, 0.0, -0.04912), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_3 = cq.Workplane(plane_3)
+loop_1 = sketch_3.moveTo(0.77866, -0.01643)
+loop_1 = loop_1.circle(0.02012)
+sketch_3=sketch_3.add(loop_1)
+solid_3 = sketch_3.extrude(0.07)
+plane_4 = cq.Plane(origin=(0.0, 0.0, -0.04912), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_4 = cq.Workplane(plane_4)
+loop_1 = sketch_4.moveTo(0.40697, -0.01961)
+loop_1 = loop_1.circle(0.02225)
+sketch_4=sketch_4.add(loop_1)
+solid_4 = sketch_4.extrude(0.07)
+plane_5 = cq.Plane(origin=(0.0, -1.0, 0.0), normal=(0.0, 1.0, 0.0), xDir=(1.0, 0.0, 0.0))
+sketch_5 = cq.Workplane(plane_5)
+loop_1 = sketch_5.moveTo(0.00677, -0.00935)
+loop_1 = loop_1.circle(0.02789)
+sketch_5=sketch_5.add(loop_1)
+solid_5 = sketch_5.extrude(2.0)
+
+result = solid_1
+result = result.add(solid_2)
+result = result.add(solid_3)
+result = result.add(solid_4)
+result = result.add(solid_5)
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/toaster_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_006/PART_006.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/toaster_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_006/PART_006_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

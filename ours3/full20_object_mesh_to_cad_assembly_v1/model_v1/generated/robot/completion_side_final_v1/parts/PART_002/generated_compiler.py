@@ -1,0 +1,67 @@
+"""Inferred standard-feature CAD. Approximate reconstruction, not recovered design history."""
+from pathlib import Path
+import json
+'Pure CadQuery feature builder. Input contains sketches, never a triangle mesh.'
+import cadquery as cq
+from math import sqrt
+
+def sketch_wire(points, z, smooth=False):
+    wp = cq.Workplane('XY', origin=(0, 0, z))
+    if isinstance(points, dict):
+        return wp.center(*points['center']).circle(points['radius']).val()
+    if smooth:
+        return wp.spline([tuple(p) for p in points], periodic=True).wire().val()
+    return wp.polyline([tuple(p) for p in points]).close().wire().val()
+
+def build_model(p):
+    if p['operation'] == 'revolve':
+        pts = p['profile']
+        n = len(pts)
+        wp = cq.Workplane('XZ').moveTo(0, pts[0][1]).lineTo(*pts[0])
+        bounds = sorted(set((int(i * (n - 1) / p['segments']) for i in range(p['segments'] + 1))))
+
+        def tangent(k):
+            (a, b) = (pts[max(0, k - 1)], pts[min(n - 1, k + 1)])
+            (x, y) = (b[0] - a[0], b[1] - a[1])
+            d = sqrt(x * x + y * y)
+            return (x / d, y / d)
+        for (a, b) in zip(bounds[:-1], bounds[1:]):
+            wp = wp.spline([tuple(q) for q in pts[a + 1:b + 1]], includeCurrent=True, tangents=[tangent(a), tangent(b)], scale=False)
+        shape = wp.lineTo(0, pts[-1][1]).close().revolve(360, (0, 0), (0, 1)).val().translate((*p['center_xy'], 0))
+    else:
+        features = []
+        for feature in p['features']:
+            if feature['type'] == 'extrude':
+                wires = [sketch_wire(q, feature['start']) for q in feature['loops']]
+                shape = cq.Workplane('XY').newObject(wires).toPending().extrude(feature['length'], combine=False).val()
+            else:
+                wires = [sketch_wire(q, z, feature.get('smooth', False)) for (z, q) in feature['sections']]
+                shape = cq.Workplane('XY').newObject(wires).toPending().loft(ruled=feature.get('ruled', True), combine=False).val()
+                for pocket in feature.get('pockets', []):
+                    pw = [sketch_wire(q, z, True) for (z, q) in pocket]
+                    tool = cq.Workplane('XY').newObject(pw).toPending().loft(ruled=True, combine=False).val()
+                    shape = shape.cut(tool)
+            features.append((shape, feature.get('cut', False)))
+        shape = features[0][0]
+        for (addition, cut) in features[1:]:
+            shape = shape.cut(addition) if cut else shape.fuse(addition)
+        shape = shape.clean()
+    if 'basis' in p:
+        b = p['basis']
+        shape = shape.located(cq.Location(cq.Plane(origin=(0, 0, 0), xDir=tuple(b[0]), normal=tuple(b[2]))))
+    return shape.scale(1 / p['construction_scale']).translate(tuple(p['center']))
+PARAMETERS = json.loads('{"center_xy":[-0.000427272172373816,0.0001831166453030164],"profile":[[0.0007935054629799598,0.01532075932368926],[0.0023805163889396574,0.01532075932368926],[0.003845449551364233,0.015198681560153915],[0.0054324604773241525,0.015076603796618349],[0.00701947140328385,0.014954526033083004],[0.00860648232924377,0.01483244826954766],[0.010071415491668123,0.014588292742476971],[0.011658426417628043,0.014344137215406283],[0.013245437343587962,0.014099981688335372],[0.014710370506012316,0.013855826161264684],[0.016297381431972235,0.013489592870658651],[0.01776231459439659,0.013245437343587962],[0.01934932552035651,0.012879204052981708],[0.020814258682780862,0.01239089299884033],[0.022279191845205437,0.012024659708234076],[0.02374412500762979,0.011536348654092698],[0.025209058170054366,0.010925959836415755],[0.02667399133247872,0.010315571018739034],[0.028138924494903295,0.00970518220106209],[0.02935970213025696,0.008850637856314458],[0.030336324238539936,0.0076298602209607935],[0.030824635292681535,0.006164927058536218],[0.031190868583287568,0.004699993896111865],[0.031190868583287568,0.003112982970151945],[0.031190868583287568,0.0015259720441922475],[0.031190868583287568,-6.103888176767214e-05],[0.031190868583287568,-0.0015259720441921365],[0.031190868583287568,-0.003112982970151945],[0.031190868583287568,-0.004699993896111865],[0.031190868583287568,-0.0062870048220716734],[0.031190868583287568,-0.007751937984496138],[0.03131294634682291,-0.009338948910455946],[0.03131294634682291,-0.010925959836415755],[0.03131294634682291,-0.012512970762375675],[0.0315571018738936,-0.013977903924800139],[0.0320454129280352,-0.015442837087224603],[0.03289995727278283,-0.016541536959042924],[0.034364890435207185,-0.017029848013184412],[0.035707745834096416,-0.016541536959042924],[0.036562290178843826,-0.015320759323689148],[0.036806445705914737,-0.013855826161264684],[0.036806445705914737,-0.012268815235304875],[0.036806445705914737,-0.010681804309345067],[0.03668436794237939,-0.009094793383385258],[0.036562290178843826,-0.0076298602209607935],[0.036562290178843826,-0.006042849295000874],[0.036562290178843826,-0.004455838369041065],[0.03644021241530848,-0.0028688274430812566],[0.03644021241530848,-0.001281816517121448],[0.03644021241530848,0.0001831166453030164],[0.03644021241530848,0.001770127571262936],[0.03644021241530848,0.0033571384972226337],[0.03631813465177314,0.004944149423182553],[0.03619605688823779,0.006409082585607129],[0.03582982359763176,0.007996093511566826],[0.03521943477995482,0.009461026673991402],[0.03448696819874253,0.01080388207288041],[0.03351034609045955,0.012024659708234076],[0.03241164621864123,0.013123359580052396],[0.031190868583287568,0.013977903924800028],[0.029725935420862992,0.014588292742476971],[0.02826100225843864,0.015198681560153915],[0.026796069096014064,0.015686992614295292],[0.02533113593358971,0.01617530366843689],[0.023866202771165135,0.016663614722578268],[0.022279191845205437,0.0170298480131843],[0.020814258682780862,0.0175181590673259],[0.01934932552035651,0.017884392357931933],[0.01776231459439659,0.018250625648538188],[0.016297381431972235,0.018494781175608876],[0.014710370506012316,0.01886101446621491],[0.013245437343587962,0.01910516999328582],[0.011658426417628043,0.01934932552035651],[0.010071415491668123,0.019593481047427197],[0.00860648232924377,0.01971555881096254],[0.00701947140328385,0.01995971433803323],[0.0054324604773241525,0.020081792101568796],[0.003845449551364233,0.02020386986510414],[0.0023805163889396574,0.02020386986510414],[0.0007935054629799598,0.020325947628639485]],"method":"axisymmetric_spline_revolve","segments":12,"fitting":"median of 16 meridian cross-sections; spline profile with shared endpoint tangents","operation":"revolve","basis":[[-0.23725813343099555,0.9687480925349448,0.0725752304217786],[-0.971433803332723,-0.23652566684978327,-0.017884392357932044],[-0.0001831166453030164,-0.07477263016541535,0.9971922114386864]],"axis_candidate":5,"center":[-0.05047915522187629,0.04938045535005808,0.20893609229078924],"construction_scale":1,"expected_solid_count":1}')
+
+def build():
+    return build_model(PARAMETERS)
+if False:
+    result = build()
+    assert result.isValid() and len(result.Solids()) == PARAMETERS['expected_solid_count']
+    result.exportStep(str(Path(__file__).with_suffix('.step')))
+_original_normalized_build = build
+
+def build():
+    return _original_normalized_build().scale(2.0).translate((0.0, 0.0, 0.0))
+if __name__ == '__main__':
+    result = build()
+    result.exportStep(str(Path(__file__).with_suffix('.step')))

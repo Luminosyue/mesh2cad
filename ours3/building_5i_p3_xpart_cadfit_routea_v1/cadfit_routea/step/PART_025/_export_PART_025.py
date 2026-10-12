@@ -1,0 +1,47 @@
+import cadquery as cq
+import math
+import cadquery as cq
+import math
+
+plane_1 = cq.Plane(origin=(0.0, 0.0, -0.99), normal=(0.0, 0.0, 1.0), xDir=(0.0, 1.0, 0.0))
+sketch_1 = cq.Workplane(plane_1)
+loop_1 = sketch_1.moveTo(-0.04628, 0.00426)
+loop_1 = loop_1.threePointArc((-0.04521, -0.0016), (-0.04405, -0.0072))
+loop_1 = loop_1.lineTo(-0.03991, -0.01839)
+loop_1 = loop_1.lineTo(-0.03432, -0.02931)
+loop_1 = loop_1.lineTo(-0.02585, -0.03996)
+loop_1 = loop_1.lineTo(-0.01202, -0.04933)
+loop_1 = loop_1.lineTo(-0.00124, -0.05273)
+loop_1 = loop_1.lineTo(0.00982, -0.0521)
+loop_1 = loop_1.threePointArc((0.01552, -0.04982), (0.02081, -0.04747))
+loop_1 = loop_1.lineTo(0.03148, -0.03928)
+loop_1 = loop_1.lineTo(0.03828, -0.02806)
+loop_1 = loop_1.threePointArc((0.04064, -0.02253), (0.04276, -0.01728))
+loop_1 = loop_1.lineTo(0.04592, -0.0063)
+loop_1 = loop_1.lineTo(0.04602, 0.00465)
+loop_1 = loop_1.lineTo(0.04338, 0.01555)
+loop_1 = loop_1.lineTo(0.03759, 0.02662)
+loop_1 = loop_1.threePointArc((0.03305, 0.03235), (0.02856, 0.03775))
+loop_1 = loop_1.threePointArc((0.01845, 0.04752), (0.01687, 0.04839))
+loop_1 = loop_1.lineTo(-0.00185, 0.05348)
+loop_1 = loop_1.lineTo(-0.01258, 0.05223)
+loop_1 = loop_1.lineTo(-0.02364, 0.04568)
+loop_1 = loop_1.threePointArc((-0.0356, 0.03183), (-0.0385, 0.02718))
+loop_1 = loop_1.lineTo(-0.04453, 0.01491)
+loop_1 = loop_1.threePointArc((-0.04547, 0.00948), (-0.04629, 0.00435))
+loop_1 = loop_1.close()
+sketch_1=sketch_1.add(loop_1)
+solid_1 = sketch_1.extrude(1.98)
+
+result = solid_1
+
+
+try:
+    _shape = locals().get('result') or locals().get('final_result')
+    if _shape is None:
+        _shape = [v for k,v in list(locals().items()) if k.startswith('solid_') or k.startswith('result')][-1]
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/building_5i_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_025/PART_025.step', 'STEP')
+    cq.exporters.export(_shape, r'/data/home/cuiyuehan/project/mesh2cad/ours3/building_5i_p3_xpart_cadfit_routea_v1/cadfit_routea/step/PART_025/PART_025_reconstructed.stl', 'STL')
+    print('STEP_OK')
+except Exception as e:
+    print(f'STEP_FAIL {e}')

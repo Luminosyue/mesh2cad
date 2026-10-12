@@ -1,0 +1,23 @@
+# CAD-Recode VAL1000 Inference V1
+
+- current_gate = CAD_RECODE_VAL1000_INFERENCE_COMPLETE
+- CAD_RECODE_PERFORMANCE_STATUS = PREDICTIONS_FROZEN_NOT_YET_FULLY_EVALUATED
+- NEXT_ALLOWED_STAGE = CAD_RECODE_VAL1000_EVALUATION_V1
+- expected_case_n = 1000
+- inference_attempted_n = 1000
+- inference_pass_n = 1000
+- inference_fail_n = 0
+- parse_pass_n = 996
+- parse_fail_n = 4
+- execution_pass_n = 840
+- execution_fail_n = 160
+- step_export_pass_n = 840
+- step_export_fail_n = 160
+- step_reload_pass_n = 840
+- step_reload_fail_n = 160
+- truncated_n = 3
+- device = cuda:1
+- TEST1000_REUSED = NO
+- HOLDOUT958_PREDICTION_N = 0
+- GPU3_TOUCHED = NO
+- TRAINING_RUN = NO

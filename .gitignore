@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.stl
+*.obj
+*.ply
+*.step
+*.stp
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.log

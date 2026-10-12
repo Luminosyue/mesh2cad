@@ -1,0 +1,36 @@
+# EXACT9998 Extended CAD Metrics
+
+CURRENT_GATE = `EXACT9998_VAL1000_A0_A1_A2_A3_EXTENDED_CAD_METRICS_V1`
+TEST_TOUCHED = `NO`
+P1_UNAFFECTED = `YES`
+
+## Best Arms
+
+- BEST_CURVE_ARM: `A3`
+- BEST_CLOSURE_ARM: `TIE_A0_A1_A2_A3`
+- BEST_SURFACE_ARM: `A3`
+- BEST_TOPOLOGY_ARM: `A3`
+- BEST_GRAPH_ARM: `A3`
+- A3_EXTENDED_ADVANTAGE: `ESTABLISHED`
+
+## Notes
+
+- Normal consistency is `UNRELIABLE_DEFERRED`.
+- Manifold rate is `NOT_IMPLEMENTED_RELIABLY`.
+- Graph edit distance is `DEFERRED`.
+- All continuous valid-only metrics must be read with coverage and paired/common-valid subsets.
+
+## Integrity
+
+- A0_CHANGED: `NO`
+- A1_CHANGED: `NO`
+- A2_CHANGED: `NO`
+- A3_CHANGED: `NO`
+- P1_CHANGED: `NO`
+- PREDICTIONS_CHANGED: `NO`
+- EVALUATOR_V2_CHANGED: `NO`
+- GT_CHANGED: `NO`
+- EXACT9998_CHANGED: `NO`
+- TEST_TOUCHED: `NO`
+- NEW_DECODE_RUN: `NO`
+- NEW_TRAIN_RUN: `NO`

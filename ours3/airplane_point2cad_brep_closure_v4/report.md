@@ -1,0 +1,48 @@
+# Airplane Point2CAD B-Rep Closure V4
+
+Frozen: P3 / X-Part / Dora / V3 Point2CAD surfaces + intersection polylines.
+Changed: official `distance == 0` corner test → tolerant segment-segment + shared-surface filter.
+
+- TOPO_CORNERS: 0 → 10
+- CLOSED_WIRES: 0 → 2
+- CLOSED_SHELLS: 0
+- CLEAN_PARAMETRIC_PART_SOLIDS: 0
+- PART_008_CORNER_COUNT: 3
+
+```text
+CURRENT_GATE=AIRPLANE_POINT2CAD_BREP_CLOSURE_V4
+PARTS_ATTEMPTED=3
+PARTS=['PART_008', 'PART_002', 'PART_005']
+POINT2CAD_SURFACES_REUSED=True
+POINT2CAD_INTERSECTIONS_REUSED=True
+P3_REEXECUTED=False
+XPART_REEXECUTED=False
+DORA_SES_REEXECUTED=False
+PARSE_NET_USED=False
+RAW_INTERSECTION_CURVES=9
+CORNER_CANDIDATES=39
+MERGED_TOPO_CORNERS=10
+RAW_INTERSECTION_EDGES=9
+TRIMMED_TOPO_EDGES=40
+MANIFOLD_EDGES=40
+FREE_EDGES=0
+NONMANIFOLD_EDGES=0
+WIRE_COUNT=42
+CLOSED_WIRES=2
+OPEN_WIRES=40
+VALID_TRIMMED_FACES=2
+SHELLS=1
+CLOSED_SHELLS=0
+CLEAN_PARAMETRIC_PART_SOLIDS=0
+BREP_VALID_PARTS=0
+STEP_RELOAD_VALID_PARTS=1
+FACE_EDGE_INCIDENCE_VALID_RATE=0.6666666666666666
+PART_008_CORNER_COUNT=3
+ROUTE_B_V4_GATE=PARTIAL_PASS
+NEXT_PRIMARY_BLOCKER=NO_CLEAN_PARAMETRIC_SOLID
+ARTIFACT_ROOT=/data/home/cuiyuehan/project/mesh2cad/ours3/airplane_point2cad_brep_closure_v4
+```
+
+- PART_008: corners=3 trimmed_edges=13 manifold=13 closed_wires=2 open_wires=13 faces=2 clean_solids=0 eps=0.0003
+- PART_002: corners=7 trimmed_edges=27 manifold=27 closed_wires=0 open_wires=27 faces=0 clean_solids=None eps=0.001
+- PART_005: corners=0 trimmed_edges=0 manifold=0 closed_wires=0 open_wires=0 faces=0 clean_solids=None eps=0.0003

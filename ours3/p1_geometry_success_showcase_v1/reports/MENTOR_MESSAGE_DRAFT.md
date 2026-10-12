@@ -1,0 +1,1 @@
+这轮严格只查了 EXACT9998 VAL1000 正式 P1 结果。虽然能找到数值上 Chamfer/H95 很低、Parse 和 STEP reload 通过的候选，但在共享 GT bbox 视角下，多个 prediction 明显出现尺寸/位置不一致，因此不能诚实地称为“结构和几何都成功”的 4 个 case。当前 gate 判定为 P1_GEOMETRY_SUCCESS_CASES_INSUFFICIENT。不要继续靠调渲染挽救旧 P1，等待 P1-v2 正式结果。

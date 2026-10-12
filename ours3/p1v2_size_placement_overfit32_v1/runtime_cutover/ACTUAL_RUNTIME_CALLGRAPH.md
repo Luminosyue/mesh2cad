@@ -1,0 +1,1 @@
+Actual runtime: launch_size_place.py -> train main -> DataCollator -> p2_size_loss_runtime -> splice -> Trainer compute_loss -> loss -> optimizer. Live collator still uses legacy token-id matching.

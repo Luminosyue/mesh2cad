@@ -1,0 +1,10 @@
+# Dora/BRep granularity canary
+
+- SINGLE_GT_EDGE_COMPATIBLE: 0
+- MULTI_GT_SAME_PRIMITIVE: 0
+- MULTI_GT_HETEROGENEOUS_PRIMITIVES: 0
+- FITTED_TYPE_FALSE_POSITIVE: 10
+- NO_REASONABLE_GT_GEOMETRY: 0
+- AMBIGUOUS: 0
+
+Formal match classes and thresholds were not modified.

@@ -1,0 +1,26 @@
+# P1-v2 A1 strict projector load repair
+
+- CURRENT_GATE: P1V2_A1_STRICT_PROJECTOR_LOAD_REPAIRED
+- MODEL_HAS_EDGE_PROJ: YES
+- EDGE_PROJ_ARCHITECTURE: Linear(256,256) -> GELU -> Linear(256,2048)
+- EDGE_PROJ_PARAMETER_COUNT: 592128
+- CKPT_EDGE_PROJ_KEY_COUNT: 4
+- MISSING_KEYS_N: 0
+- UNEXPECTED_KEYS_N: 0
+- SHAPE_MISMATCH_N: 0
+- EDGE_PROJ_WEIGHT_RESTORE: PASS
+- PRELOAD_PROJECTOR_HASH: 7ab8bff4cab9d75837d2818c8ce757894422ee7ff9fb31d8e53d6850327bde86
+- CHECKPOINT_PROJECTOR_HASH: 6c1c8254fd1c76da5e678598259e7ef3bfba3f38a81a86070f8f0f1d6da888ad
+- POSTLOAD_PROJECTOR_HASH: 6c1c8254fd1c76da5e678598259e7ef3bfba3f38a81a86070f8f0f1d6da888ad
+- EDGE_PROJ_FORWARD_SMOKE: PASS
+- A1_FORWARD: RESOURCE_BLOCKED
+- HISTORICAL_A1_TRAIN_LOADER: /data/home/cuiyuehan/project/mesh2cad/ours3/m2_exact9998_surface_line_ablation_v1/launch/train_entrypoint.py -> curve_ablation_runtime.install -> curve_token_injector.patch_model_patcher -> SpatialLM Trainer resume
+- HISTORICAL_A1_VAL_LOADER: /data/home/cuiyuehan/project/mesh2cad/ours3/m2_exact9998_a1_a2_unified_val1000_eval_v2/launch/unified_v2_ablation_entrypoint.py -> unified_v2_entrypoint.strict_load
+- HISTORICAL_A1_FINAL_TEST_LOADER: /data/home/cuiyuehan/project/mesh2cad/ours3/final_test1000_v1/freeze/final_test_runner.py -> same unified_v2_entrypoint.strict_load
+- HISTORICAL_A1_RESULT_STATUS: UNAFFECTED
+- A1_CHECKPOINT_CHANGED: NO
+- P1V2_METHOD_CHANGED: NO
+- TEST1000_REUSED: NO
+- HOLDOUT958_CHANGED: NO
+- HOLDOUT958_PREDICTION_N: 0
+- NEXT_ALLOWED_STAGE: P1V2_A1_BACKBONE_REAL_MODEL_CANARY_V1_RETRY

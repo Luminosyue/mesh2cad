@@ -1,0 +1,53 @@
+# P1-v2 A1 training construction repair
+
+Training construction, strict load, backward, and optimizer step passed. The task stopped at lambda=0 gradient parity.
+
+- HISTORICAL_A1_ALL_PARAM_N: 1346475904
+- HISTORICAL_A1_TRAINABLE_PARAM_N: 1237719808
+- HISTORICAL_A1_FROZEN_PARAM_N: 108756096
+- trainable_prefixes: ['model', 'lm_head', 'point_proj', 'edge_proj']
+- frozen_prefixes: ['point_backbone']
+- evidence: ['a1_exact9998_train.yaml freeze_point_tower=true', 'a1_train.log line 163 exact parameter counts', 'framework/adapter.py get_forbidden_modules']
+- CURRENT_ALL_PARAM_N: 1346475904
+- CURRENT_TRAINABLE_PARAM_N: 1237719808
+- CURRENT_FROZEN_PARAM_N: 108756096
+- A1_TRAINABLE_POLICY_MATCH: PASS
+- MISSING_KEYS_N: 0
+- UNEXPECTED_KEYS_N: 0
+- SHAPE_MISMATCH_N: 0
+- EDGE_PROJ_WEIGHT_RESTORE: PASS
+- PROJECTOR_REQUIRES_GRAD: True
+- C2_REQUIRES_GRAD: False
+- TRAINABLE_NOT_IN_OPTIMIZER_N: 0
+- FROZEN_IN_OPTIMIZER_N: 0
+- DUPLICATE_OPTIMIZER_PARAM_N: 0
+- PROJECTOR_IN_OPTIMIZER: True
+- A1_TRAINING_FORWARD: PASS
+- LOSS: 0.30492159724235535
+- LOSS_REQUIRES_GRAD: True
+- LOSS_HAS_GRAD_FN: True
+- cad_id: deepcad__0002_00021522
+- surface_shape: [8192, 6]
+- LINE_K: 26
+- A1_BACKWARD: PASS
+- TRAINABLE_PARAM_N_WITH_GRAD: 154
+- TRAINABLE_PARAM_N_NONZERO_GRAD: 154
+- TRAINABLE_PARAM_N_NONFINITE_GRAD: 0
+- FROZEN_PARAM_N_WITH_GRAD: 0
+- C2_GRAD: NONE
+- A1_OPTIMIZER_STEP: PASS
+- PROJECTOR_MAX_ABS_UPDATE: 2.0001083612442017e-05
+- FROZEN_PROBE_MAX_ABS_UPDATE: 0.0
+- P1V2_LAMBDA0_A1_PARITY: FAIL
+- LOGIT_MAX_ABS_DIFF: 0.0
+- BASE_LOSS_DIFF: 0.0
+- GRAD_MAX_ABS_DIFF: 1.202896237373352e-05
+- note: Same strict-loaded trainable A1 graph; lambda_op=0 and completion disabled; deterministic eval mode.
+- CURRENT_GATE: P1V2_LAMBDA0_A1_PARITY_FAIL
+- A1_CHECKPOINT_CHANGED: NO
+- P1V2_METHOD_CHANGED: NO
+- TEST1000_REUSED: NO
+- HOLDOUT958_CHANGED: NO
+- HOLDOUT958_PREDICTION_N: 0
+- NEXT_ALLOWED_STAGE: P1V2_LAMBDA0_GRADIENT_DETERMINISM_AUDIT_V1
+- FAILED_ASSERTION: lambda_op=0 and completion OFF must reproduce A1 gradient within preregistered tolerance

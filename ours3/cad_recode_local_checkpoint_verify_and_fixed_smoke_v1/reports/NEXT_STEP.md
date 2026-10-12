@@ -1,0 +1,1 @@
+Place the complete official `filapro/cad-recode-v1.5` snapshot at the exact upload root, then rerun file inventory, per-file SHA256, config/tokenizer/weight completeness and local-only model load. Do not use any other weights or run inference until verification passes.

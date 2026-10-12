@@ -1,0 +1,6 @@
+import cadquery as cq
+plane = cq.Plane(origin=[0.004676825991953354, -0.0002249987141549892, -0.5074849957988121], xDir=[0.0, -1.0, 0.0], normal=[0.0, 0.0, 1.0])
+result = cq.Workplane(plane).circle(0.03901261668071265).extrude(0.9656054162575665)
+
+feature_1 = cq.Workplane(cq.Plane(origin=[0.0045596868280441466, -0.0011415350581369151, 0.4390634089227645], xDir=[1.0, 0.0, 0.0], normal=[-0.0, -3.469446951953614e-18, 1.0])).circle(0.04588781299073467).extrude(0.024374636430894166)
+result = result.cut(feature_1)

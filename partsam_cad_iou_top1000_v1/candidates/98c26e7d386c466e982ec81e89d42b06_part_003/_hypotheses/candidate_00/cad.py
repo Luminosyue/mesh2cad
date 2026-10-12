@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+import cadquery as cq
+from pathlib import Path
+
+SPEC = {'kind': 'extrusion', 'center': [0.0, -0.181780995, -0.129429735], 'basis': [[0.0, 1.0, 0.0], [0.0, 0.0, 1.0], [1.0, 0.0, 0.0]], 'axis': [0.0, 1.0, 0.0], 'zmin': -1.0500000000024379e-07, 'zmax': 1.0500000000024379e-07, 'profiles': [{'outer': [[-0.02936535500000001, -0.33339748], [-0.11467342500000002, -0.31443107], [-0.192126295, -0.27405626], [-0.256514335, -0.21499996], [-0.30340125500000004, -0.1412508], [-0.329652985, -0.05793704], [-0.33339741500000003, 0.02936536], [-0.314431035, 0.11467344], [-0.274056275, 0.19212633], [-0.21499996500000002, 0.25651437], [-0.14125081500000003, 0.30340126], [-0.05793704500000002, 0.32965302], [0.029365344999999987, 0.33339748], [0.11467340499999999, 0.3144311], [0.192126285, 0.27405629], [0.256514335, 0.21499999], [0.303401225, 0.14125082], [0.32965298499999995, 0.05793704], [0.333397415, -0.02936536], [0.314431005, -0.11467343], [0.274056215, -0.19212632], [0.21499992499999998, -0.25651437], [0.141250785, -0.30340126], [0.057937034999999984, -0.32965302]], 'holes': []}], 'simplify_tolerance': 0.00013335899200000003, 'sketch_entity_count': 24}
+OUT = Path(__file__).resolve().parent
+
+def vec(v):
+    return cq.Vector(float(v[0]), float(v[1]), float(v[2]))
+
+def build():
+    s = SPEC
+    kind = s["kind"]
+    B = s.get("basis")
+    center = s.get("center")
+    if kind == "extrusion":
+        xdir = [B[i][0] for i in range(3)]
+        axis = [B[i][2] for i in range(3)]
+        origin = [center[i] + s["zmin"] * axis[i] for i in range(3)]
+        plane = cq.Plane(origin=origin, xDir=xdir, normal=axis)
+        result = None
+        height = s["zmax"] - s["zmin"]
+        for profile in s["profiles"]:
+            solid = cq.Workplane(plane).polyline(profile["outer"]).close().extrude(height)
+            for hole in profile["holes"]:
+                cutter = cq.Workplane(plane).polyline(hole).close().extrude(height)
+                solid = solid.cut(cutter)
+            result = solid if result is None else result.union(solid)
+    elif kind == "multi_loft":
+        def loft(track):
+            wires = [cq.Wire.makePolygon([vec(p) for p in section], close=True) for section in track]
+            return cq.Solid.makeLoft(wires, ruled=bool(s.get("ruled", True)))
+        outer = [loft(track) for track in s["outer_tracks"]]
+        # Keep disjoint solids as a legal STEP compound.  Global Boolean fusion
+        # is unnecessary for training geometry and scales poorly with profiles.
+        for track in s.get("hole_tracks", []):
+            cutter = loft(track)
+            cut_outer = []
+            for solid in outer:
+                try:
+                    cut_outer.append(solid.cut(cutter))
+                except Exception:
+                    cut_outer.append(solid)
+            outer = cut_outer
+        result = outer[0] if len(outer) == 1 else cq.Compound.makeCompound(outer)
+    elif kind == "box":
+        xdir = [B[i][0] for i in range(3)]
+        axis = [B[i][2] for i in range(3)]
+        origin = [center[i] + s["mins"][0]*B[i][0] + s["mins"][1]*B[i][1] + s["mins"][2]*B[i][2] for i in range(3)]
+        plane = cq.Plane(origin=origin, xDir=xdir, normal=axis)
+        dx=s["maxs"][0]-s["mins"][0]; dy=s["maxs"][1]-s["mins"][1]; dz=s["maxs"][2]-s["mins"][2]
+        result = cq.Workplane(plane).rect(dx,dy,centered=False).extrude(dz)
+    elif kind == "cylinder":
+        xdir = [B[i][0] for i in range(3)]
+        axis = [B[i][2] for i in range(3)]
+        origin = [center[i] + s["zmin"] * axis[i] for i in range(3)]
+        plane = cq.Plane(origin=origin, xDir=xdir, normal=axis)
+        result = cq.Workplane(plane).circle(s["radius"]).extrude(s["zmax"]-s["zmin"])
+    else:
+        raise ValueError(kind)
+    cq.exporters.export(result, str(OUT / "reconstructed.step"))
+    cq.exporters.export(result, str(OUT / "reconstructed.stl"), tolerance=0.001, angularTolerance=0.05)
+    return result
+
+if __name__ == "__main__":
+    build()
