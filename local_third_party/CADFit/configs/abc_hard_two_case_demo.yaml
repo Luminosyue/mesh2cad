@@ -1,0 +1,16 @@
+protocol_name: ABC-Hard-Two-Case-Demo-v1
+abc_release: v00
+hard_min_step_faces: 151
+hard_max_step_faces: 1500
+case_a_target_min_faces: 200
+case_a_target_max_faces: 400
+case_b_target_min_faces: 800
+case_b_target_max_faces: 1500
+maximum_download_chunks: 3
+maximum_candidate_run_attempts: 4
+timeout_per_sample_seconds: 3600
+cadfit_max_iterations: 1
+fillet_chamfer: false
+outer_workers: 1
+skip_existing: true
+allow_mesh_repair: false

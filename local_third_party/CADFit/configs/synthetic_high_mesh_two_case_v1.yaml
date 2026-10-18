@@ -1,0 +1,8 @@
+protocol_name: Synthetic-High-Mesh-Two-Case-Demo-v1
+prior_mode: no_prior
+max_iterations: 1
+fillet_chamfer: false
+timeout_seconds: 3600
+outer_workers: 1
+skip_existing: true
+allow_mesh_repair: false

@@ -1,0 +1,61 @@
+### model
+model_name_or_path: models/SpatialLM1.1-Llama-1B
+trust_remote_code: true
+use_fast_tokenizer: false
+
+### method
+do_train: true
+freeze_language_tower: false
+freeze_point_tower: true
+train_proj_only: false
+
+### dataset — Scheme A / J2-P: surface + mesh-detected sharp edges
+# Fair vs J0 / J2-O: same split, cutoff=4096, epochs, optimizer, effective batch=4.
+# surface: geometry_pack_v1/surface_points.npy           [8192,6]
+# edge:    geometry_pack_v1/edge_points_detected.npy    [1024,6]
+# Requires: CAD_USE_SEPARATE_EDGE_TOKENS=1 CAD_EDGE_SOURCE=detected
+#           CAD_USE_EDGE_SCORE unset
+dataset: joint_j0j2_v1_train
+eval_dataset: joint_j0j2_v1_val
+dataset_dir: ../cad_spatial_dataset/joint_deepcad_fusion360_v1
+media_dir: ../cad_spatial_dataset
+template: spatiallm_cad_llama_sepedge
+num_bins: 1280
+do_augmentation: false
+random_rotation: false
+cutoff_len: 4096
+overwrite_cache: false
+preprocessing_num_workers: 2
+dataloader_num_workers: 2
+save_dir: saves/joint_j2_sepedge_preprocessed_v1
+
+### output
+output_dir: saves/joint_j2p_detected_v1
+logging_steps: 10
+save_steps: 500
+overwrite_output_dir: false
+save_total_limit: 3
+report_to: none
+
+### train
+per_device_train_batch_size: 1
+# Single-GPU default: accum=4 → effective batch 4 (matches J0 2-GPU×accum2).
+# DDP launcher sed's this to 2 when NPROC_PER_NODE=2.
+gradient_accumulation_steps: 4
+learning_rate: 2.0e-5
+num_train_epochs: 20
+lr_scheduler_type: cosine
+warmup_ratio: 0.03
+bf16: true
+tf32: true
+ddp_timeout: 180000000
+max_new_tokens: 4096
+
+gradient_checkpointing: true
+disable_gradient_checkpointing: false
+
+### eval
+val_size: 0.0
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 500

@@ -1,0 +1,51 @@
+### model
+model_name_or_path: models/SpatialLM1.1-Llama-1B
+trust_remote_code: true
+use_fast_tokenizer: false
+
+### method
+do_train: true
+freeze_language_tower: false
+freeze_point_tower: false
+train_proj_only: false
+
+### dataset — baseline: xyz + normal only (6ch)
+dataset: deepcad_cad_baseline_train100_train
+eval_dataset: deepcad_cad_baseline_train100_val
+dataset_dir: ../cad_spatial_dataset/DeepCAD
+media_dir: ../cad_spatial_dataset/DeepCAD
+template: spatiallm_cad_llama_baseline
+num_bins: 1280
+do_augmentation: false
+random_rotation: false
+cutoff_len: 4096
+overwrite_cache: true
+preprocessing_num_workers: 2
+dataloader_num_workers: 2
+save_dir: saves/deepcad_train100_baseline
+
+### output
+output_dir: saves/deepcad_train100_baseline
+logging_steps: 5
+save_steps: 100
+overwrite_output_dir: false
+save_total_limit: 3
+report_to: none
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 4
+learning_rate: 2.0e-5
+num_train_epochs: 50
+lr_scheduler_type: cosine
+warmup_ratio: 0.03
+bf16: true
+tf32: true
+ddp_timeout: 180000000
+max_new_tokens: 2048
+
+### eval
+val_size: 0.0
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 100

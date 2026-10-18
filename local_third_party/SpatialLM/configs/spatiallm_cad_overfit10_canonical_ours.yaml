@@ -1,0 +1,52 @@
+### model
+model_name_or_path: models/SpatialLM1.1-Llama-1B
+trust_remote_code: true
+use_fast_tokenizer: false
+
+### method
+do_train: true
+freeze_language_tower: false
+freeze_point_tower: true
+train_proj_only: false
+
+### dataset — canonical overfit10 ours (7ch)
+dataset: deepcad_cad_ours_overfit10_train
+dataset_dir: ../cad_spatial_dataset/DeepCAD
+media_dir: ../cad_spatial_dataset/DeepCAD
+template: spatiallm_cad_llama
+num_bins: 1280
+do_augmentation: false
+random_rotation: false
+cutoff_len: 2048
+overwrite_cache: true
+preprocessing_num_workers: 2
+dataloader_num_workers: 0
+save_dir: saves/deepcad_overfit10_canonical_ours
+
+### output
+output_dir: saves/deepcad_overfit10_canonical_ours
+logging_steps: 1
+save_steps: 100
+overwrite_output_dir: false
+save_total_limit: 2
+report_to: none
+
+### train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 2.0e-5
+num_train_epochs: 200
+lr_scheduler_type: constant
+warmup_ratio: 0.0
+bf16: true
+tf32: true
+ddp_timeout: 180000000
+max_new_tokens: 2048
+optim: adamw_torch
+max_grad_norm: 1.0
+gradient_checkpointing: true
+disable_gradient_checkpointing: false
+
+### eval
+val_size: 0.0
+per_device_eval_batch_size: 1
